@@ -16,7 +16,7 @@ brew install whois
 
 #Verify WHOIS installed:
 whois google.com | grep -i "domain name" && echo "SUCCESS: WHOIS is working" || echo "ERROR: WHOIS not working or not installed"
-'''
+```
 
 Finding following details:
 Registrar: Via which registrar was the domain name registered?
@@ -24,4 +24,4 @@ Contact info of registrant: Name, organization, address, phone, among other thin
 Creation, update, and expiration dates: When was the domain name first registered? When was it last updated? And when does it need to be renewed?
 Name Server: Which server to ask to resolve the domain name?
 
-'''whois {DOMAIN_NAME}
+```whois {DOMAIN_NAME}
