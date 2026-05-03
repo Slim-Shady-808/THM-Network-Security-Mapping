@@ -24,4 +24,24 @@ Contact info of registrant: Name, organization, address, phone, among other thin
 Creation, update, and expiration dates: When was the domain name first registered? When was it last updated? And when does it need to be renewed?
 Name Server: Which server to ask to resolve the domain name?
 
-```whois {DOMAIN_NAME}
+```
+whois {DOMAIN_NAME}
+```
+
+Find IP Address of Domain:
+```
+nslookup -type={SERVICE TYPE} {DOMAIN_NAME} {SERVER}
+```
+Service Types:
+1. A = IPv4
+2. AAAA = IPv6
+3. CNAME = Canonical Name
+4. MX = Mail Servers
+5. SOA = Start of Authority
+6. TXT = TXT Records
+
+
+Advanced DNS Queries and Functionality:
+```
+dig @{SERVER} {DOMAIN_NAME} {SERVICE TYPE}
+```
