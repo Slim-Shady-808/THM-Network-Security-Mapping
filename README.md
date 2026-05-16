@@ -18,3 +18,21 @@ Have access to the following:
 3. Windows, Mac, or Linux Terminal
 4. Nmap
 5. Hydra
+
+**Security Considerations**
+Legal and Ethical Use
+⚠️ IMPORTANT: Only perform security assessments on systems you own or have explicit written permission to test.
+
+✅ Authorized penetration testing
+✅ Security research on your own infrastructure
+✅ Compliance and audit assessments
+❌ Unauthorized scanning is illegal and unethical
+Data Sensitivity
+Scan results may contain sensitive information
+Store results securely with appropriate access controls
+Do not commit sensitive scan data to public repositories
+Use .gitignore to exclude sensitive files
+Rate Limiting
+Be considerate of network bandwidth and system resources
+Use appropriate timing for scans (avoid aggressive scanning on production)
+Respect CVE API rate limits (NVD: 5 requests/30s without API key)
