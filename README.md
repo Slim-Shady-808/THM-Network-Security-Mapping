@@ -54,7 +54,7 @@ nmap --script ftp-anon,ssh-auth-methods,http-default-accounts 192.168.1.0/24
 ```
 
 Directory Structure
-'''
+```
 thm-network-security/
 ├── README.md                                   # This file
 ├── rooms/
