@@ -27,8 +27,11 @@ Simply run the launcher script to access the interactive menu:
 cd thm-network-security
 
 # Browse a specific topic
-cat rooms/03-nmap/README.md
-cat rooms/04-protocols-and-servers/02-attacks-and-hardening.md```
+cat rooms/01-Passive-Reconnaissance
+cat rooms/02-Active-Reconnaissance
+cat rooms/03-Nmap/README.md
+cat rooms/04-Protocols-and-Servers/02-attacks-and-hardening.md
+```
 
 # Jump straight to the home network assessment workflow
 # See: ## Practical Home Network Assessment (below)
