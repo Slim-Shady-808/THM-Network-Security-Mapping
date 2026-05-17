@@ -33,104 +33,80 @@ cat rooms/04-Protocols-and-Servers/02-attacks-and-hardening.md
 # Jump straight to the home network assessment workflow
 # See: ## Practical Home Network Assessment (below)
 ```
+Assessment Mode
+```
+# Phase 1 — Find your public exposure
+whois $(curl -s ifconfig.me)
+dig YOUR-DOMAIN.com ANY
+
+# Phase 2 — Discover all hosts on your LAN
+sudo nmap -PR -sn 192.168.1.0/24 -oG live-hosts.txt
+
+# Phase 3 — Full port scan and service detection
+sudo nmap -sV -O -iL live-hosts.txt -T4 -oA results/phase3-services
+
+# Phase 4 — Vulnerability checks
+sudo nmap --script vuln -iL live-hosts.txt -oA results/phase4-vulns
+
+# Phase 5 — Protocol and credential checks
+nmap -p 21,23,25,80,110,143 --open 192.168.1.0/24
+nmap --script ftp-anon,ssh-auth-methods,http-default-accounts 192.168.1.0/24
+```
 
 Directory Structure
 '''
 thm-network-security/
-├── README.md                                   # This file — study guide + practical field manual
+├── README.md                                   # This file
 ├── rooms/
-│   ├── 01-Passive-Recon/
+│   ├── 01-passive-recon/
 │   │   ├── README.md                           # Notes, concepts, and answers
 │   │   └── commands.md                         # Key commands used
-│   ├── 02-Active-Recon/
+│   ├── 02-active-recon/
 │   │   ├── README.md
 │   │   └── commands.md
-│   ├── 03-Nmap/                                # All four Nmap rooms consolidated
+│   ├── 03-nmap/                                # All four Nmap rooms consolidated
 │   │   ├── README.md                           # Unified Nmap overview
-│   │   ├── 01-live-host-discovery.md           # ARP, ICMP, TCP/UDP ping scans
-│   │   ├── 02-basic-port-scans.md              # TCP connect, SYN, UDP scans
-│   │   ├── 03-advanced-port-scans.md           # Null, FIN, Xmas, evasion
-│   │   └── 04-post-port-scans.md               # Service/OS detection, NSE, output formats
-│   └── 04-Protocols-and-Servers/               # Both Protocols rooms consolidated
-│       ├── README.md                           # Unified protocols overview
-│       ├── 01-protocol-internals.md            # HTTP, FTP, SMTP, POP3, IMAP mechanics
-│       └── 02-attacks-and-hardening.md         # Sniffing, brute-force, SSH, SSL/TLS
+│   │   ├── 01-live-host-discovery.md
+│   │   ├── 02-basic-port-scans.md
+│   │   ├── 03-advanced-port-scans.md
+│   │   └── 04-post-port-scans.md
+│   └── 04-protocols-and-servers/               # Both Protocols rooms consolidated
+│       ├── README.md
+│       ├── 01-protocol-internals.md
+│       └── 02-attacks-and-hardening.md
 ├── tools/
-│   ├── Nmap-cheatsheet.md                      # Comprehensive Nmap flag reference
-│   ├── passive-recon-tools.md                  # whois, dig, nslookup, Shodan, etc.
-│   └── protocol-ports-reference.md            # Common ports and protocol reference
+│   ├── nmap-cheatsheet.md
+│   ├── passive-recon-tools.md
+│   └── protocol-ports-reference.md
 ├── notes/
-│   ├── scan-types-comparison.md               # Side-by-side scan type breakdown
-│   └── attack-mitigations.md                  # Attacks covered + mitigations
+│   ├── scan-types-comparison.md
+│   └── attack-mitigations.md
+├── results/                                    # Local scan output (gitignored)
 ├── .gitignore
 ├── CONTRIBUTING.md
 └── LICENSE
 ```
 
+Module Rooms
 
-Web Application Security Assessment
-Network Infrastructure Security Assessment
-WiFi Security Assessment
-All Assessments (Web + Network + WiFi)
-Help
-Exit
-Command-Line Mode
-Run specific assessments directly:
 
-# Web assessment
-./run-assessment.sh web --target https://example.com --automated
-
-# Network assessment
-./run-assessment.sh network --target 192.168.1.0/24 --type vuln --cve
-
-# WiFi assessment
-./run-assessment.sh wifi --scan-type quick
-
-# All assessments
-./run-assessment.sh all
-Directory Structure
-security-assessments/
-├── run-assessment.sh           # Unified launcher script
-├── README.md                   # This file
-├── web/                        # Web Application Security Assessment
-│   ├── README.md               # Web assessment documentation
-│   ├── run-assessment.sh       # Automated web assessment workflow
-│   ├── send-report.py          # Email report delivery
-│   ├── Web-Assessment.md       # Assessment template/guide
-│   ├── AUTOMATED-WORKFLOW.md   # Workflow documentation
-│   └── *.md, *.pdf             # Assessment reports
-├── network/                    # Network Infrastructure Security Assessment
-│   ├── README.md               # Network assessment documentation
-│   ├── scripts/                # Assessment scripts
-│   │   ├── network-scan.sh     # Network scanning wrapper
-│   │   ├── cve-lookup.sh       # CVE vulnerability lookup
-│   │   ├── hygiene-check.sh    # Security hygiene checker
-│   │   ├── generate-report.sh  # Report generation
-│   │   └── lib/                # Shared library functions
-│   ├── config/                 # Configuration files
-│   ├── scans/                  # Scan results storage
-│   ├── reports/                # Generated reports
-│   └── templates/              # Report templates
-└── Wifi/                       # WiFi Security Assessment
-    ├── README.md               # WiFi assessment documentation
-    ├── wifi-scan.sh            # WiFi security scanning script
-    ├── WiFi-Security-Assessment-Guide.md  # Comprehensive methodology guide
-    ├── output/                 # Scan results and captures
-    └── reports/                # Generated security reports
-Assessment Types
-Web Application Security Assessment
-Purpose: Comprehensive security testing of web applications and websites
+Passive Reconnaissance 
+Purpose: Gather info about target device w/o direct interaction
 
 Key Features:
+- DNS and WHOIS information gathering
+- Shodan for finding exposed devices, open ports, and service banners
 
-SSL/TLS configuration analysis (testssl.sh)
-HTTP security headers evaluation
-OWASP Top 10 vulnerability checks
-Technology fingerprinting (WhatWeb)
-DNS and WHOIS information gathering
-Automated report generation (Markdown/PDF)
-Email delivery system for reports
 Use Cases:
+Scoping your external attack surfaces
+Identify exposed DNS records/TXT entries
+Finding what is discoverable about your public IP
+Reconnaisance on authorized targets
+
+Documentation: See rooms/01-Passive-Recon/README.md
+
+
+
 
 Web application penetration testing
 Security compliance assessments
