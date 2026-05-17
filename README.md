@@ -21,8 +21,6 @@ Have access to the following:
 5. Hydra
 
 Quick Start
-Interactive Mode
-Simply run the launcher script to access the interactive menu:
 ```git clone https://github.com/YOUR_USERNAME/thm-network-security.git
 cd thm-network-security
 
@@ -31,14 +29,44 @@ cat rooms/01-Passive-Reconnaissance
 cat rooms/02-Active-Reconnaissance
 cat rooms/03-Nmap/README.md
 cat rooms/04-Protocols-and-Servers/02-attacks-and-hardening.md
-```
 
 # Jump straight to the home network assessment workflow
 # See: ## Practical Home Network Assessment (below)
+```
 
-cd security-assessments
-./run-assessment.sh
-This will present you with options to choose:
+Directory Structure
+'''
+thm-network-security/
+├── README.md                                   # This file — study guide + practical field manual
+├── rooms/
+│   ├── 01-Passive-Recon/
+│   │   ├── README.md                           # Notes, concepts, and answers
+│   │   └── commands.md                         # Key commands used
+│   ├── 02-Active-Recon/
+│   │   ├── README.md
+│   │   └── commands.md
+│   ├── 03-Nmap/                                # All four Nmap rooms consolidated
+│   │   ├── README.md                           # Unified Nmap overview
+│   │   ├── 01-live-host-discovery.md           # ARP, ICMP, TCP/UDP ping scans
+│   │   ├── 02-basic-port-scans.md              # TCP connect, SYN, UDP scans
+│   │   ├── 03-advanced-port-scans.md           # Null, FIN, Xmas, evasion
+│   │   └── 04-post-port-scans.md               # Service/OS detection, NSE, output formats
+│   └── 04-Protocols-and-Servers/               # Both Protocols rooms consolidated
+│       ├── README.md                           # Unified protocols overview
+│       ├── 01-protocol-internals.md            # HTTP, FTP, SMTP, POP3, IMAP mechanics
+│       └── 02-attacks-and-hardening.md         # Sniffing, brute-force, SSH, SSL/TLS
+├── tools/
+│   ├── Nmap-cheatsheet.md                      # Comprehensive Nmap flag reference
+│   ├── passive-recon-tools.md                  # whois, dig, nslookup, Shodan, etc.
+│   └── protocol-ports-reference.md            # Common ports and protocol reference
+├── notes/
+│   ├── scan-types-comparison.md               # Side-by-side scan type breakdown
+│   └── attack-mitigations.md                  # Attacks covered + mitigations
+├── .gitignore
+├── CONTRIBUTING.md
+└── LICENSE
+```
+
 
 Web Application Security Assessment
 Network Infrastructure Security Assessment
