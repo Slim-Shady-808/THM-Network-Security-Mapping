@@ -23,12 +23,12 @@ Have access to the following:
 Quick Start
 Interactive Mode
 Simply run the launcher script to access the interactive menu:
-git clone https://github.com/YOUR_USERNAME/thm-network-security.git
+```git clone https://github.com/YOUR_USERNAME/thm-network-security.git
 cd thm-network-security
 
 # Browse a specific topic
 cat rooms/03-nmap/README.md
-cat rooms/04-protocols-and-servers/02-attacks-and-hardening.md
+cat rooms/04-protocols-and-servers/02-attacks-and-hardening.md```
 
 # Jump straight to the home network assessment workflow
 # See: ## Practical Home Network Assessment (below)
