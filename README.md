@@ -20,7 +20,7 @@ Have access to the following:
 4. Nmap
 5. Hydra
 
-Quick Start
+## Quick Start
 ```git clone https://github.com/YOUR_USERNAME/thm-network-security.git
 cd thm-network-security
 
@@ -33,7 +33,7 @@ cat rooms/04-Protocols-and-Servers/02-attacks-and-hardening.md
 # Jump straight to the home network assessment workflow
 # See: ## Practical Home Network Assessment (below)
 ```
-Assessment Mode
+## Assessment Mode
 ```
 # Phase 1 — Find your public exposure
 whois $(curl -s ifconfig.me)
@@ -53,7 +53,7 @@ nmap -p 21,23,25,80,110,143 --open 192.168.1.0/24
 nmap --script ftp-anon,ssh-auth-methods,http-default-accounts 192.168.1.0/24
 ```
 
-Directory Structure
+## Directory Structure
 ```
 thm-network-security/
 ├── README.md                                   # This file
@@ -87,80 +87,92 @@ thm-network-security/
 └── LICENSE
 ```
 
-Module Rooms
+# Module Rooms
+## Passive Reconnaissance 
+### Purpose: 
+Gather info about target device w/o direct interaction
 
-
-Passive Reconnaissance 
-Purpose: Gather info about target device w/o direct interaction
-
-Key Features:
+### Key Features:
 - DNS and WHOIS information gathering
 - Shodan for finding exposed devices, open ports, and service banners
+  
+### Use Cases:
+- Scoping your external attack surfaces
+- Identify exposed DNS records/TXT entries
+- Finding what is discoverable about your public IP
+- Reconnaisance on authorized targets
 
-Use Cases:
-Scoping your external attack surfaces
-Identify exposed DNS records/TXT entries
-Finding what is discoverable about your public IP
-Reconnaisance on authorized targets
+### Documentation: 
+See rooms/01-Passive-Recon/README.md
 
-Documentation: See rooms/01-Passive-Recon/README.md
+## Active Reconnaissance 
+### Purpose: 
+Directly interact with target systems to map vulnerabilities within network and services
 
+### Key Features:
+- ping for reachability testing with ICMP requests
+- traceroute to map network path to target
+- telnet and netcat for TCP port connection and banner grabbing
+- LAN host discovery without Nmap
 
+### Use Cases:
+- Map devices on network
+- Identify service versions with banner grabbing
+- Verify disabled Telnet on routers/IoT devices
 
+### Documentation:
+See rooms/02-Active-Recon/README.md
 
-Web application penetration testing
-Security compliance assessments
-Pre-deployment security validation
-Regular security monitoring
-Documentation: See web/README.md
+## Nmap
+### Purpose:
+Comprehensive network scanning from live host discovery
 
-Network Infrastructure Security Assessment
-Purpose: Network security scanning and vulnerability assessment
+### Key Features:
+- ARP, TCP SYN/ACK, ICMP, and UDP pinging techniques for host disovery
+- TCP (TCP SYN) and UDP port scanning
+- Null, FIN, Xmas, Maimon, ACK, Window, and Idle/Zombie stealth scans
+- Nmap Scripting engine with different categories
+- Normal, XML, and Greppable output formatting for reporting
 
-Key Features:
+### Scan Types:
+- Live Host Discovery
+- Basic & Advanced Port Scans
+- Post Port Scans
 
-Multiple scan profiles (quick, full, vuln, service, discovery)
-CVE vulnerability lookup (NIST NVD API integration)
-Security hygiene checking with risk scoring
-Automated nmap-based scanning
-Service version detection
-Report generation (Markdown/HTML)
-Smart caching for CVE data
-Use Cases:
+### Use Cases: 
+- Audit of network devices
+- Firewall mapping with ACK scans
+- Identify vulnerable credientials and service versions
+- Save time-stamped scan output 
 
-Network infrastructure assessments
-Vulnerability scanning
-Security hygiene monitoring
-Compliance and audit support
-Documentation: See network/README.md
+### Documentation:
+See rooms/03-Nmap/README.md
 
-WiFi Security Assessment
-Purpose: Wireless network security analysis and vulnerability assessment
+## Protocols and Servers
+### Purpose:
+Understand common app layer protocols and explotation/hardening
 
-Key Features:
+### Key Features:
+- Manual protocol interaction using telnet and netcat for HTTP, FTP, SMTP, POP3, and IMAP
+- Packet capture and credential extraction
+- Brute force and password attacks with Hydra
+- TLS/HTTPS auditing
+- SSH Hardening
 
-Three scan modes (quick, full, monitor)
-Interface management and monitor mode support
-Network reconnaissance with host discovery
-Encryption analysis with aircrack-ng suite
-Security scoring and vulnerability assessment
-Automated report generation
-Support for WPA2/WPA3 security analysis
-Scan Types:
+### Attack Types:
+- Sniffing: cleartext credential capture with tcpdump/wireshark
+- Man-In-The-Middle: Intercept and read client-server traffic
+- Brute-Force: Attacks against logins with Hydra
 
-Quick: Fast WiFi scan using nmcli/iw (no monitor mode)
-Full: Comprehensive scan with network reconnaissance and host discovery
-Monitor: Advanced packet capture and analysis using aircrack-ng
-Use Cases:
+### Use Cases: 
+- Verify no open cleartext protocols
+- Test for default credentials
+- Audit device SSH configuration
 
-WiFi security audits
-Encryption strength assessment
-Rogue access point detection
-Network penetration testing (authorized)
-Security compliance validation
-Documentation: See Wifi/README.md and Wifi/WiFi-Security-Assessment-Guide.md
+### Documentation:
+See rooms/04-Protocols-and-Servers/README.md
 
-Usage Examples
+# Usage Examples
 Web Assessment Examples
 # Basic web assessment with automated workflow
 ./run-assessment.sh web --target https://www.example.com --automated
