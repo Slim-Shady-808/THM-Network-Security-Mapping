@@ -1,18 +1,15 @@
-# THM-Network-Security-Assessment 
-A basic security network-mapping framework providing basic tools and online services for active/passive reconnassiance. 
+# TryHackMe-Network-Security-Assessment 
+A structured and practical network-mapping guide based off the TryHackMe Network-Security module. Provides basic tools and online services for active/passive reconnassiance, Nmap scanning strategies, and common network protocols. 
 
 **OVERVIEW**
-This unified framework combines three powerful security assessment toolkits:
-
-Web Assessment: Web application security testing (DNSLookup, IPLookup, vulnerabilities)
-Network Assessment: Network infrastructure scanning (port scanning, CVE lookup, hygiene checks)
+This write-up documents the TryHackMe Network Security Module and the practicalities for network assessment :
 
 **Topics Covered**
 Provides list of commands and uses
-Passive Reconnaissance: Info gathering w/o direct interaction (WHOIS, nslookup, dig, DNSDumpster, Shodan.io)
-Active Reconnaissance: Info gathering with direct interaction (Ping, Tracerroute, Telnet, Netcat)
-Nmap: Network Mapping (TCP/UDP, ARP, ICMP, Basic+Advanced Port Scans)
-Protocols and Servers (Common Protocols, SSH, SSL/TLS, Hydra)
+- Passive Reconnaissance: OSINT gathering w/o direct interaction (WHOIS, nslookup, dig, DNSDumpster, Shodan.io)
+- Active Reconnaissance: Direct target network probing (Ping, Tracerroute, Telnet, Netcat)
+- Nmap: Network Mapping (TCP/UDP, ARP, ICMP, Basic+Advanced Port Scans)
+- Protocols and Servers (Common Protocols, SSH, SSL/TLS, Hydra)
 
 **Purpose**
 Learn to use basic tools and online service for network mapping and passive/active reconnaissance.
@@ -26,6 +23,15 @@ Have access to the following:
 Quick Start
 Interactive Mode
 Simply run the launcher script to access the interactive menu:
+git clone https://github.com/YOUR_USERNAME/thm-network-security.git
+cd thm-network-security
+
+# Browse a specific topic
+cat rooms/03-nmap/README.md
+cat rooms/04-protocols-and-servers/02-attacks-and-hardening.md
+
+# Jump straight to the home network assessment workflow
+# See: ## Practical Home Network Assessment (below)
 
 cd security-assessments
 ./run-assessment.sh
