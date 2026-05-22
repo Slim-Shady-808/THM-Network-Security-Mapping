@@ -172,116 +172,123 @@ Understand common app layer protocols and explotation/hardening
 ### Documentation:
 See rooms/04-Protocols-and-Servers/README.md
 
-# Usage Examples
-Web Assessment Examples
-# Basic web assessment with automated workflow
-./run-assessment.sh web --target https://www.example.com --automated
+## Usage Examples
+### Passive Reconnaissance Examples 
+```
+# WHOIS lookup on a domain
+whois DOMAIN.com
 
-# Web assessment with report delivery via email
-./run-assessment.sh web --target https://api.example.com --send-report
+# Check all DNS exposed records
+dig DOMAIN.com ANY
+dig @1.1.1.1 DOMAIN.com TXT
 
-# Generate report from existing assessment
-./run-assessment.sh web --report-only --target https://example.com
-Network Assessment Examples
-# Quick scan of a single host
-./run-assessment.sh network --target 192.168.1.10 --type quick
+# Zone transfer attempt
+dig DOMAIN.com AFXR
 
-# Full vulnerability scan with CVE lookup
-./run-assessment.sh network --target 192.168.1.0/24 --type vuln --cve --report
+# Find Public IP
+curl -s ifconig.me
 
-# Service detection with hygiene check
-./run-assessment.sh network --target 10.0.0.1 --type service --hygiene-check
+# Check IP Exposure on Shodan
+visit: https://wwww.shodan.io/host/PUBLIC_IP
+```
+### Active Reconnaissance Examples
+```
+# Manual Ping Sweep of Subnet
+ping -c1 -W1 192.168.1.$i &>/dev/null && echo "192.168.1.$i UP"; done (for i in {1..254})
 
-# Discovery scan of network range
-./run-assessment.sh network --target 192.168.0.0/16 --type discovery
-WiFi Assessment Examples
-# Quick WiFi network scan
-./run-assessment.sh wifi --scan-type quick
+# Banner Grab Servies
+nc -nv 192.168.1.1 22       # SSH 
+nc -nv 192.168.1.1 80       # HTTP 
+telnet 192.168.1.1 23       # Telnet
 
-# Full scan of specific network with report
-./run-assessment.sh wifi --scan-type full --ssid "MyNetwork" --report
+# Trace Network Route to Internet
+traceroute 8.8.8.8
+```
 
-# Monitor mode capture and analysis (requires root)
-sudo ./run-assessment.sh wifi --scan-type monitor --ssid "MyNetwork" --duration 60 --report
+### Nmap Examples
+```
+# Find live hosts on your network and save the list
+sudo nmap -PR -sn 192.168.1.0/24 -oG live-hosts.txt
+grep "Up" live-hosts.txt | awk '{print $2}' > hosts.txt
 
-# Quick scan on specific interface
-./run-assessment.sh wifi --interface wlan1 --scan-type quick
+# SYN scan with service detection
+sudo nmap -sS -sV -p- -T4 192.168.1.1 -oA results/router-full
 
-# Focused monitor mode scan with custom duration
-sudo ./run-assessment.sh wifi --scan-type monitor --ssid "TargetNetwork" --duration 120 --report
-Comprehensive Assessment
-# Run all assessments (web, network, and WiFi)
-./run-assessment.sh all
+# Run vulnerability scripts across hosts
+sudo nmap --script vuln -iL hosts.txt -oA results/vuln-scan
 
-# Or run them separately in sequence
-./run-assessment.sh web --target https://example.com
-./run-assessment.sh network --target example.com --type vuln --cve
-./run-assessment.sh wifi --scan-type full --report
-Prerequisites
-Web Assessment Requirements
-testssl.sh: SSL/TLS testing
-whatweb: Technology fingerprinting
-dig: DNS queries
-whois: Domain information
-curl: HTTP requests
-Python 3: Report delivery system
-wkhtmltopdf: PDF generation
-Installation:
+# Check for telnet
+nmap -p 23 --open 192.168.1.0/24
 
-# Install tools
-sudo apt install dnsutils whois curl python3 python3-pip wkhtmltopdf
+# Use ACK scan to test firewall
+sudo nmap -sA 192.168.1.1
+```
 
-# Install testssl.sh
-cd /opt
-sudo git clone https://github.com/drwetter/testssl.sh.git
+### Hydra Examples
+```
+# Test default credentials on router's FTP
+hydra -l admin -P /usr/share/wordlists/rockyou.txt ftp://192.168.1.1
 
-# Install whatweb
-sudo apt install whatweb
-Network Assessment Requirements
-nmap: Network scanner
-curl: CVE API queries
-xmllint: XML parsing
-pandoc (optional): HTML report generation
-masscan (optional): Fast port scanning
-Installation:
+# Password Spray
+hydra -L users.txt -p 'Password1!' ssh://192.168.1.1 -u -f -t 4
 
-# Install required tools
-sudo apt install nmap curl libxml2-utils
+# Test SSH with username
+hydra -l admin -P rockyou.txt ssh://192.168.1.1
 
-# Install optional tools
-sudo apt install pandoc masscan
-WiFi Assessment Requirements
-nmcli: Network Manager CLI
-iw: Wireless tools
-aircrack-ng suite: Monitor mode and packet capture (for monitor scans)
-nmap: Host discovery (for full scans)
-Root privileges: Required for monitor mode scans only
-Installation:
+# Flags to know
+-V         verbose — print every attempt
+-f         stop after first valid credential found
+-t 4       parallel tasks (default 16; lower = quieter)
+-w 30      wait 30s between retries (avoids lockout)
+-s PORT    override default port
+-o out.txt save found credentials to file
+```
+### Protocol Verification Examples
+```
+# Check for running cleartext protocols
+nmap -p 21,23,25,80,110,143 --open 192.168.1.0/24
 
-# Install Network Manager and wireless tools
-sudo apt install network-manager iw wireless-tools
+# Test FTP for anonymous login
+nmap --script ftp-anon -p 21 192.168.1.0/24
+```
+## Prerequisites 
+### Active/Passive Reconnaissance
+- whois: Domain registration lookups
+- dnsutils: DNS queries
+- traceroute: Network path mapping
+- netcat: Banner grabbing and TCP connections
+- curl: Public IP lookup and HTTP requests
+- telnet: Manual protocol interaction
+#### Installation
+```
+sudo apt install whois dnsutils traceroute netcat-openbsd curl telnet
+```
 
-# Install aircrack-ng suite (for monitor mode)
-sudo apt install aircrack-ng
-
-# Install nmap (for host discovery in full scans)
+### Nmap Requirements
+- nmap: Network scanner
+- Root privileges
+#### Installation 
+```
 sudo apt install nmap
+# Verify NSE script database is up to date
+sudo nmap --script-updatedb
+```
 
-# Verify wireless interface supports monitor mode (optional check)
-iw list | grep -A 10 "Supported interface modes"
-Configuration
-Web Assessment Configuration
-Configure email delivery in web/email-config.json:
+### Protocol Assessment Requirements
+- hydra: Brute-force and password spray 
+- tcpdump: Packet capture and credential extraction 
+- ftp: Manual FTP client 
+- openssl: TLS handshake testing and certificate inspection
+#### Installation
+```
+sudo apt install hydra tcpdump ftp openssl wireshark-cli
+```
 
-{
-  "smtp_server": "smtp.gmail.com",
-  "smtp_port": 587,
-  "sender_email": "your-email@example.com",
-  "sender_password": "your-app-password",
-  "recipient_email": "recipient@example.com"
-}
-Network Assessment Configuration
-Configure CVE lookup in network/config/cve-config.conf:
+### Verify Tools
+```
+which nmap hydra tcpdump dig whois nc curl ftp openssl
+```
+
 
 # NVD API Configuration
 NVD_API_KEY=""                    # Optional: Get from https://nvd.nist.gov/
