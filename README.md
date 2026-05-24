@@ -273,7 +273,6 @@ sudo apt install nmap
 # Verify NSE script database is up to date
 sudo nmap --script-updatedb
 ```
-
 ### Protocol Assessment Requirements
 - hydra: Brute-force and password spray 
 - tcpdump: Packet capture and credential extraction 
@@ -289,140 +288,169 @@ sudo apt install hydra tcpdump ftp openssl wireshark-cli
 which nmap hydra tcpdump dig whois nc curl ftp openssl
 ```
 
+## Reporting Formats
+### Nmap Scan Reports
+All scans are saved to produce three formats:
+- Normal (.nmap): Human-readable for quick review
+- XML (.xml): Machine readable/parseable
+- Greppable (.gnmap): Log analysis, troubleshooting
 
-# NVD API Configuration
-NVD_API_KEY=""                    # Optional: Get from https://nvd.nist.gov/
-CACHE_TTL_DAYS=7                  # Cache duration
-RATE_LIMIT_DELAY=6                # Seconds between API calls
-WiFi Assessment Configuration
-WiFi assessment works out of the box with default settings:
+```
+# Save all formats with a datestamp
+sudo nmap -A -iL hosts.txt -oA results/scan-$(date +%F)
 
-# Default settings (can be overridden via command-line)
-INTERFACE="wlan0"                 # Wireless interface
-SCAN_TYPE="quick"                 # quick, full, or monitor
-SCAN_DURATION=30                  # Seconds for monitor mode
-No additional configuration files required. All options are passed via command-line arguments.
+# Extract just the open ports from a greppable file
+grep "open" results/scan-2026-05-16.gnmap | awk '{print $2, $5}'
+```
 
-Report Formats
-Web Assessment Reports
-All reports are automatically saved in both formats:
+### Hydra Report
+```
+# Save found credentials to file
+hydra -l admin -P rockyou.txt ssh://TARGET_IP -o results/hydra-findings.txt
+```
 
-Markdown (.md): Human-readable, GitHub-compatible, version-controlled
-PDF (.pdf): Professional reports for client delivery
-Sections: Executive Summary, SSL/TLS Analysis, Headers, DNS/WHOIS, Findings, Recommendations
-Both .md and .pdf files are tracked in git for historical record and archival purposes.
+### Tcpdump Capture Report
+```
+# Capture to file for offline analysis
+sudo tcpdump -i eth0 -w results/capture-$(date +%F).pcap
 
-Network Assessment Reports
-Markdown (.md): Detailed scan results with CVE data
-HTML (.html): Web-viewable reports with formatting
-Text (.txt): Plain text summaries
-Scan Outputs: .nmap, .xml, .gnmap formats
-WiFi Assessment Reports
-Markdown (.md): Security assessment reports with recommendations
-Scan Results: Network lists, encryption details, signal strength
-Capture Files: .csv, .cap, .pcap (for monitor mode scans)
-Sections: Executive Summary, Networks Detected, Security Analysis, Recommendations
-Workflow Integration
-Automated Web Assessment Workflow
-The web assessment includes an automated workflow that:
+# Extract credentials from a capture
+tcpdump -r results/capture.pcap -A | grep -iE "user|pass|login|auth"
+```
 
-Runs all security tools in sequence
-Generates comprehensive markdown report
-Converts report to PDF
-Optionally delivers via email
-See web/AUTOMATED-WORKFLOW.md for details.
+## Workflow Integration
+Passive External Recon Workflow
+Determine information publicly visile to your domain:
+- Find current public IP
+- Run whois to see what your public IP exposes
+- Review all public DNS records
+- Look for exposed tokens
+- Review open ports and banners
 
-Network Scanning Workflow
-Typical network assessment workflow:
+Network Discovery Workflow
+Map active devices on your local network:
+- Identify subnet
+- Run ARP sweep
+- Extract host list and generate report
+- Perform fast portscan across hosts
+- Save outputs as reports for future assessments
 
-Run initial scan (quick/discovery)
-Perform detailed vulnerability scan with CVE lookup
-Run security hygiene check
-Generate comprehensive report
-Store results for historical comparison
-WiFi Assessment Workflow
-Typical WiFi security assessment workflow:
+Full Device Audit Workflow
+Find services, versions, and vulnerabilities on devices:
+- Run SYN scan on all ports
+- Run service/OS detection
+- Run NSE vulnerability scripts
+- Audit SSH
+- Audit web interfaces
+- Save outputs as reports
 
-Quick scan to discover available networks
-Full scan with host discovery (if connected to network)
-Monitor mode scan for encryption analysis (requires root)
-Generate security report with recommendations
-Review and implement security improvements
-Three Scan Modes:
+Credential Testing Workflow
+Test for weak/default credentials:
+- Test most common default credentials
+- Expand wordlist to pull txt files
+- Test and search for open services
+- Save output as a report
 
-Quick: Fast network discovery (no root required)
-Full: Network reconnaissance + host discovery (requires connection)
-Monitor: Deep packet analysis with encryption assessment (requires root)
-Security Considerations
-Legal and Ethical Use
+Protocol Hardening Workflow
+Check that cleartext protocols are blocked and secure alternatives are configured:
+- Scan subnet for cleartext services
+- Confirm FTP anonymous login is disabled
+- Confirm SSH authentication protocols
+- Test SMTP vulnerability
+- Verify HTTPS headers
+- COnfirm TLS 1.0/1.1 are no longer open
+
+## Security Considerations
+### Legal and Ethical Use
 ⚠️ IMPORTANT: Only perform security assessments on systems you own or have explicit written permission to test.
 
 ✅ Authorized penetration testing
 ✅ Security research on your own infrastructure
 ✅ Compliance and audit assessments
 ❌ Unauthorized scanning is illegal and unethical
-Data Sensitivity
+### Data Sensitivity
 Scan results may contain sensitive information
 Store results securely with appropriate access controls
 Do not commit sensitive scan data to public repositories
 Use .gitignore to exclude sensitive files
-Rate Limiting
+Replace real IPs and hostnames in write-ups with 192.168.1.x or TARGET_IP before pushing
+
+### Rate Limiting
 Be considerate of network bandwidth and system resources
 Use appropriate timing for scans (avoid aggressive scanning on production)
 Respect CVE API rate limits (NVD: 5 requests/30s without API key)
-Troubleshooting
-Common Issues
-Permission Denied:
+Avoid running --script vuln scans continuously — they are intrusive and may trigger alerts
 
-# Make scripts executable
-chmod +x run-assessment.sh
-chmod +x web/run-assessment.sh
-chmod +x network/scripts/*.sh
-Tools Not Found:
+## Troubleshooting
+### Common Issues
+#### Nmap permission denied:
+```
+# SYN scans, OS detection, and ARP scans require root
+sudo nmap -sS TARGET
+sudo nmap -O TARGET
+sudo nmap -PR -sn SUBNET
+```
+#### Nmap returns no open ports:
+```
+# Skip host discovery if ICMP is blocked
+nmap -Pn TARGET
+nmap -Pn -p- TARGET
+```
 
-# Verify tool installation
-which nmap testssl.sh whatweb
+#### Tools not found
+```
+sudo apt install dnsutils          # dig, nslookup
+sudo apt install netcat-openbsd    # nc
+sudo apt install hydra             # credential testing
+sudo apt install nmap              # scanning
+```
 
-# Check PATH
-echo $PATH
-CVE API Errors:
+#### Hydra fails immediately:
+```
+# Verify the service is actually running
+nc -nv TARGET PORT
 
-# Check internet connectivity
-curl -I https://services.nvd.nist.gov/
+# Slow down to avoid connection resets
+hydra -l admin -P wordlist.txt ssh://TARGET -t 4 -w 10
+```
 
-# View cache stats
-./network/scripts/cve-lookup.sh --stats
-Documentation
-Web Assessment: web/README.md
-Network Assessment: network/README.md
-WiFi Assessment: Wifi/README.md
-WiFi Assessment Guide: Wifi/WiFi-Security-Assessment-Guide.md
-Automated Workflow: web/AUTOMATED-WORKFLOW.md
-Report Delivery: web/REPORT-DELIVERY-OPTIONS.md
-Contributing
+## Documentation
+Passive Recon: rooms/01-passive-recon/README.md
+Active Recon: rooms/02-active-recon/README.md
+Nmap: rooms/03-nmap/README.md
+Protocols and Servers: rooms/04-protocols-and-servers/README.md
+Nmap Cheat Sheet: tools/nmap-cheatsheet.md
+Passive Recon Tools: tools/passive-recon-tools.md
+Protocol Port Reference: tools/protocol-ports-reference.md
+Scan Types Comparison: notes/scan-types-comparison.md
+Attack Mitigations: notes/attack-mitigations.md
+
+## Contributing
 Contributions are welcome! Areas for enhancement:
 
-Additional assessment types (mobile, API, cloud)
-Enhanced reporting formats
-Integration with SIEM systems
-Automated remediation suggestions
-CI/CD pipeline integration
-WiFi security automation enhancements
-Support
+Additional NSE script examples with sample output
+Protocol capture walkthroughs with pcap files
+Device-specific hardening guides for routers, NAS devices, and printers
+Corrections and clarifications to existing notes
+See CONTRIBUTING.md for guidelines.
+
+## Support
 For issues, questions, or contributions:
 
-GitHub Issues: https://github.com/arcy24/netsectap-security-framework/issues
-Documentation: See individual toolkit READMEs
+GitHub Issues: https://github.com/Slim_Shady_808/thm-network-security/issues
+Documentation: See individual room READMEs in the rooms/ directory
+
 Related Projects
 This framework is part of the NetSecTap Labs ecosystem:
 
-Web Assessment: Application security testing
-Network Hygiene: Infrastructure security monitoring
-WiFi Security: Wireless network security assessment
-Security Research: Vulnerability research and analysis
+Network Fundamentals: Core networking concepts — OSI model, TCP/IP, subnetting
+Network Security: Recon, Nmap, protocols, and attacks (this repository)
+Vulnerability Research: Exploiting discovered vulnerabilities and CVE research
+TryHackMe Module Page: https://tryhackme.com/module/network-security
+
 License
-This project is provided as-is for educational and authorized security testing purposes.
+This project is licensed under the MIT License. See LICENSE for details
 
-Last Updated: January 18, 2026
+Last Updated: May 2026
 
-⚠️ Disclaimer: This framework is for authorized security testing only. Always obtain proper authorization before assessing networks or applications. Unauthorized testing may be illegal in your jurisdiction.
+⚠️ Disclaimer:  This repository is for educational purposes and authorized security testing only. Always obtain proper authorization before scanning or assessing any network or system. Unauthorized testing may be illegal in your jurisdiction.
