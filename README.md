@@ -83,7 +83,7 @@ thm-network-security/
 │   └── attack-mitigations.md
 ├── results/                                    # Local scan output (gitignored)
 ├── .gitignore
-├── CONTRIBUTING.md
+├── Contributing.md
 └── LICENSE
 ```
 
@@ -432,7 +432,7 @@ Additional NSE script examples with sample output
 Protocol capture walkthroughs with pcap files
 Device-specific hardening guides for routers, NAS devices, and printers
 Corrections and clarifications to existing notes
-See CONTRIBUTING.md for guidelines.
+See Contributing.md for guidelines.
 
 ## Support
 For issues, questions, or contributions:
