@@ -72,5 +72,23 @@ dig DOMAIN.com AXFR @NS1.DOMAIN.com
 dig -x TARGET_IP
 ```
 
-### Shodan
+### Online Tools 
+```
+#DNS Record Discovery
+htts://dnsdumpster.com
+
+#Shodan
+Shodan.io
+```
+
+### Useful Single-Line Commands
+```
+# Check your own public IP
+curl -s ifconfig.me
+
+# Pull all common DNS record types for a domain in one go
+for type in A AAAA MX TXT NS CNAME; do echo "=== $type ==="; dig DOMAIN.com $type +short; done
+
+# Find subdomains via certificate transparency
+curl -s "https://crt.sh/?q=%.DOMAIN.com&output=json" | python3 -m json.tool | grep "name_value" | sort -u
 ```
