@@ -80,7 +80,7 @@ Online search engine scanning internet to find open ports, service banners, SSL 
 - Associated CVEs and service versions
 - Device type
 
-```
+
 **How to use:**
 1. Go to https://www.shodan.io
 2. Search for target public IP, domain, or name
