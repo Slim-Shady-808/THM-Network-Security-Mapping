@@ -21,12 +21,11 @@ whois DOMAIN
 whois IP_ADDRESS
 ```
 **Finds following details:**
-Registrar: Via which registrar was the domain name registered?
-Contact info of registrant: Name, organization, address, phone, among other things. (unless made hidden via a privacy service)
-Creation, update, and expiration dates: When was the domain name first registered? When was it last updated? And when does it need to be renewed?
-Name Server: Which server to ask to resolve the domain name
-Registrant contact: name and email
-IP Block Owner: IP lookups and owner of address
+- Registrar
+- Contact info of registrant
+- Creation, update, and expiration dates
+- Name Server
+- IP Block Owner
 
 ### nslookup
 Simple, fast DNS client for querying DNS record types
