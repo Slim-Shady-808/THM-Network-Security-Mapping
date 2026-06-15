@@ -28,17 +28,13 @@ whois IP_ADDRESS
 - IP Block Owner
 
 ### nslookup
-Simple, fast DNS client for querying DNS record types
+Simple command-line DNS client for querying DNS record types
 **Syntax:**
 ```
 nslookup -type=RECORD_TYPE DOMAIN
 nslookup -type=RECORD_TYPE DOMAIN DNS_SERVER
 ```
 
-**Find IP Address of Domain:**
-```
-nslookup -type={SERVICE TYPE} {DOMAIN_NAME} {SERVER}
-```
 **Service Types:**
 1. A = IPv4
 2. AAAA = IPv6
@@ -46,27 +42,24 @@ nslookup -type={SERVICE TYPE} {DOMAIN_NAME} {SERVER}
 4. MX = Mail Servers
 5. SOA = Start of Authority
 6. TXT = TXT Records
+7. NS = Domain Name Servers
 
 ### Dig
-More advanced DNS query tool, including TTL values, name, server, and time
+More advanced DNS query tool, including TTL values, name server, and time
 
 **Syntax:**
 ```
-dig DOMAIN RECORD_TYPE
 dig @DNS_SERVER DOMAIN RECORD_TYPE
 ```
-**Advanced DNS Queries and Functionality:**
-```
-dig @{SERVER} {DOMAIN_NAME} {SERVICE TYPE}
-```
+
 **Zone Transfer**
 ```
-dig DOMAIN AXFR
+dig ns DOMAIN
+dig DOMAIN axfr @NS1.DOMAIN
 ```
 
-
 ### DNSDumpster
-Online tool for passive subdomain discovery and DNS record query. 
+Online tool (https://dnsdumpster.com) for passive subdomain discovery and DNS record query. 
 **Returns:**
 - Subdomains + IPs
 - MX records
@@ -86,7 +79,8 @@ Online search engine scanning internet to find open ports, service banners, SSL 
 - SSL certificates
 - Associated CVEs and service versions
 - Device type
-  
+
+***Useful Search Requests*** 
 ```
 hostname:TARGET-DOMAIN.com
 ip:TARGET_PUBLIC_IP
@@ -153,18 +147,15 @@ whois YOUR-DOMAIN.com
 whois $(curl -s ifconfig.me)
 
 # Pull all DNS records for your domain
-dig YOUR-DOMAIN.com ANY
-dig YOUR-DOMAIN.com A
-dig YOUR-DOMAIN.com MX
-dig YOUR-DOMAIN.com TXT
+dig YOUR-DOMAIN.com TYPE
 
 # Attempt zone transfer — should return REFUSED
-dig YOUR-DOMAIN.com AXFR
+dig YOUR-DOMAIN.com AXFR @NS1.DOMAIN
 
-# Use a specific resolver to confirm records are consistent
+# Confirm records are consistent
 dig @8.8.8.8 YOUR-DOMAIN.com A
 dig @1.1.1.1 YOUR-DOMAIN.com MX
 
-# Check Shodan for your public IP (CLI)
+# Check Shodan for your public IP
 # https://www.shodan.io/host/YOUR_PUBLIC_IP
 ```
