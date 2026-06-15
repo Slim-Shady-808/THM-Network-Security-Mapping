@@ -80,11 +80,6 @@ Online search engine scanning internet to find open ports, service banners, SSL 
 - Associated CVEs and service versions
 - Device type
 
-***Useful Search Requests*** 
-```
-hostname:TARGET-DOMAIN.com
-ip:TARGET_PUBLIC_IP
-org:"Target Organisation Name"
 ```
 **How to use:**
 1. Go to https://www.shodan.io
