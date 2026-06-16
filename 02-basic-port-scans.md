@@ -55,29 +55,45 @@ sudo nmap -sU -p PORT TARGET_IP
 ```
 
 #### Port Specification Flags
--p PORT = Single Port
--p PORT1, PORT2 = Multiple Specific Ports
+- -p PORT = Single Port
+- -p PORT1, PORT2 = Multiple Specific Ports
+- -p START-END = Port Range
+- -p- = All 65535 Ports
+- -F = Fast mode
+- --top-ports N = Top N most common ports
+- -p U:Port,T:Port = Specify protocol per port
 
 ### Practical Application
 **Use Cases:**
-- Build host inventory of home network
-- Discover forgotten/unkown devices connected to LAN
-- Confirm all expected devices online
-
+- Audit router for unexpected open ports
+- Scan NAS or media server
+- Check all devices for open Telnet or insecure FTP
+- Confirm SNMP
+  
 **Commands:**
 ```
-# Step 1 — Identify your subnet
-ip route | grep -v default | head -1
+# Quick SYN scan of your router — most important ports
+sudo nmap -sS -p 22,23,53,80,443,8080,8443 192.168.1.1
 
-# Step 2 — ARP sweep to get the most complete host list
-sudo nmap -PR -sn 192.168.1.0/24 -oG live-hosts.txt
+# Full port scan of a specific device
+sudo nmap -sS -p- -T4 192.168.1.50 -oA results/full-scan-device
 
-# Step 3 — Extract just the IPs into a clean list
-grep "Up" live-hosts.txt | awk '{print $2}' | tee hosts.txt
+# UDP audit of your router for SNMP and DNS
+sudo nmap -sU -p 53,67,68,161,162,500 192.168.1.1
 
-# Step 4 — Cross-check with ICMP and TCP probes to catch any ARP-silent hosts
-sudo nmap -PE -PS22,80,443 -PA80 -sn 192.168.1.0/24
+# Scan entire subnet for Telnet — should return nothing
+nmap -p 23 --open 192.168.1.0/24
 
-# Step 5 — Review MAC addresses to identify unknown devices
-sudo nmap -PR -sn 192.168.1.0/24 | grep -E "MAC|report"
+# Scan entire subnet for FTP
+nmap -p 21 --open 192.168.1.0/24
+
+# Fast audit of all hosts — top 100 ports
+sudo nmap -sS -F 192.168.1.0/24 -oA results/fast-subnet-scan
 ```
+
+**Important Things to Look For**
+- Port 23 open on any device (disable)
+- Port 21 open (disable)
+- Port 161 open
+- Port 8080 or 8443 open
+- Filtered ports
