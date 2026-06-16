@@ -1,67 +1,119 @@
 ## Overview
-- Port Scans: Open, closed, filtered, unfiltered, open|filtered, closed|filtered
-- TCP Connect Scan: Three-way handshake
-- TCP Syn Scan: Requires root
-- UDP Scan: Proves UDP Ports (Useful for DNS, SNMP, and DHCP Services)
+- Null, FIN, Xmas Scans: Send packets with no TCP flags
+- Maimon Scan: FIN/ACK scan
+- ACk Scan: Check reachable ports
+- Window Scan: Use TCP to see if port open or closed
+- Custom TCP Scan: Set TCP flags
+- Spoofing and Decoys: Hide scanning IP
 
 ### Key Concepts
-**TCP Fundamentals**
-- SYN = Initiate Connection
-- ACK = Confirm data receipt
-- RST = Terminate connection (Abrupt)
-- FIN = Terminate connection (Not Abrupt)
-- PSH = Reciever passes data to app immediately
-- URG = Data marked as urgent
+**Null Scan (-sN)**
+Sends TCP packet with no flags set
 
-**Port States**
-- Open = Service actively listening and accepting connections on this port
-- Closed = Port accessible but no service listening
-- Filtered = Nmap being blocked by firewall
-- Unfiltered = Port accessible but NMAP cannot determine open or closed
-- Open|filtered = Nmap cannot tell if port is open or filtered
-- Closed|filtered = Nmap cannot tell if port is closed or filtered
+**Use Cases**
+- Scan targets blocking SYN packets
+```
+sudo nmap -sN TARGET_IP
+sudo nmap -sN -p 1-1000 TARGET_IP
+```
 
-**TCP Connect Scan (-sT)**
-Complete three-way handshake
+**FIN Scan (-sF)**
+Send TCP packet with only FIN flag
 
 **Use Cases:**
-- Scan without root privileges
-- Confirm open ports (Unstealthily)
+- Stealth scan use cases
 ```
-nmap -sT TARGET_IP
-nmap -sT -p PORT TARGET_IP
-```
-
-**TCP SYN Scan (-sS)**
-Sends SYN packet w/o completing handshake
-
-**Use Cases:**
-- Default Nmap scan
-- Audit network
-```
-sudo nmap -sS TARGET_IP
-sudo nmap -sS -p PORT TARGET_IP
+sudo nmap -sF TARGET_IP
+sudo nmap -sF -p 22,80,443 TARGET_IP
 ```
 
-**UDP Scan (-sU)**
-Sends UDP packets to target ports
+**Xmas Scan (-sX)**
+Sets FIN, PSH, and URG flags
 
 **Use Cases:**
-- Discover DNS, SNMP, DHCP, TFTP, and NTP Services
-- Audit Network Devices
+- Stealh alternative to SYN-based scans
 ```
-sudo nmap -sU TARGET_IP
-sudo nmap -sU -p PORT TARGET_IP
+sudo nmap -sX TARGET_IP
+sudo nmap -sX -p 1-1024 TARGET_IP
 ```
 
-#### Port Specification Flags
-- -p PORT = Single Port
-- -p PORT1, PORT2 = Multiple Specific Ports
-- -p START-END = Port Range
-- -p- = All 65535 Ports
-- -F = Fast mode
-- --top-ports N = Top N most common ports
-- -p U:Port,T:Port = Specify protocol per port
+**Maimon Scan (-sM))**
+Sends FIN/ACK Packet
+
+**Use Cases:**
+```
+sudo nmap -sM TARGET_IP
+```
+
+**ACK Scan (-sA)**
+Sends TCP ACK packet to each port
+
+**Use Cases:**
+-  Map firewall rules
+-  Identify reachable ports
+```
+sudo nmap -sA TARGET_IP
+sudo nmap -sA -p 1-1024 TARGET_IP
+```
+
+**Windows Scan (-sW)**
+ACK scan inspecting TCP window field value
+
+**Use Cases:**
+- Getting open/closed detail from ACK responses
+```
+sudo nmap -sW TARGET_IP
+```
+
+**Custom TCP Scan (--scanflags)**
+Manually sets combination of TCP flags
+
+**Use Cases:**
+- Testing firewall/IDS
+- Bypass signature-based detection
+```
+# SYN + FIN (illegal combination — tests IDS behaviour)
+sudo nmap --scanflags SYNFIN TARGET_IP
+
+# SYN + RST (another unusual combination)
+sudo nmap --scanflags SYNRST TARGET_IP
+
+# URG + PSH + FIN (same as Xmas but via custom flag)
+sudo nmap --scanflags URGPSHFIN TARGET_IP
+```
+
+**Spoof Source IPs (-S)**
+Send packets with fake IP Source Address
+
+**Use Cases:**
+- Generate decoy traffic to confuse network logs
+```
+sudo nmap -S SPOOFED_IP -e INTERFACE -Pn TARGET_IP
+```
+
+**Decoy Scan (-D)**
+Makes scan appear to come from multiple IP addresses
+
+**Use Cases:**
+- Test IDS to identify real IP source
+- Red team testing/engagements
+```
+# Use 5 random decoy IPs
+sudo nmap -D RND:5 TARGET_IP
+
+# Specify exact decoy IPs (include ME for your real position)
+sudo nmap -D DECOY1,DECOY2,ME TARGET_IP
+```
+
+**Idle/Zombie Scan (-sI)**
+Blind Scan
+
+**Use Cases:**
+- Red team engagements/testing
+```
+sudo nmap -sI ZOMBIE_IP TARGET_IP
+sudo nmap -sI ZOMBIE_IP:PORT TARGET_IP
+```
 
 ### Practical Application
 **Use Cases:**
