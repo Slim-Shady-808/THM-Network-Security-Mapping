@@ -125,6 +125,18 @@ nslookup google.com | grep -i "address" && echo "SUCCESS: nslookup is working" |
 dig google.com | grep -i "ANSWER SECTION" && echo "SUCCESS: dig is working" || echo "ERROR: dig not working or not installed"
 ```
 
+**Pre-Checks**
+```
+# 1. Note your own public IP
+curl -s ipconfig.me
+
+# 2. Confirm dig can query your domain
+dig YOUR-DOMAIN.com ANY
+
+# 3. Check your domain's WHOIS privacy status
+whois YOUR-DOMAIN.com | grep -i "registrant"
+```
+
 ## Practical Application:
 Use Case:
 - Review domain exposure with WHOIS before pen test
