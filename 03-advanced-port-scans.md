@@ -114,38 +114,66 @@ Blind Scan
 sudo nmap -sI ZOMBIE_IP TARGET_IP
 sudo nmap -sI ZOMBIE_IP:PORT TARGET_IP
 ```
+**Requirements for Zombie Host:**
+- Must be idle during scan
+- Must have predictable IP ID counter with increments
+
+**Fragmentation (-f)**
+Splits TCP eader into small IP fragments
+
+**Use Cases:**
+- Testing if firewall correctly drops fragmented port scan traffic
+```
+# 8-byte fragments
+sudo nmap -f TARGET_IP
+
+# 16-byte fragments
+sudo nmap -ff TARGET_IP
+
+# Custom fragment size (must be a multiple of 8)
+sudo nmap --mtu 16 TARGET_IP
+```
+
+**Source Port Spoofing (--source-port)**
+Sets source port of scan packets to value
+
+**Use Cases:**
+- Bypass firewalls that trust traffic from specific ports
+- Test own firewall rules
+```
+sudo nmap --source-port 53 TARGET_IP
+sudo nmap --source-port 80 TARGET_IP
+```
+
+**Data Length Padding (--data-length)**
+Appends random data to scan packets to change the size
+
+**Use Cases:**
+- Evade IDS signatures that match Nmap default packet sizes
+```
+sudo nmap --data-length 200 TARGET_IP
+```
 
 ### Practical Application
-**Use Cases:**
-- Audit router for unexpected open ports
-- Scan NAS or media server
-- Check all devices for open Telnet or insecure FTP
-- Confirm SNMP
-  
+
 **Commands:**
 ```
-# Quick SYN scan of your router — most important ports
-sudo nmap -sS -p 22,23,53,80,443,8080,8443 192.168.1.1
+# Map your firewall rules with an ACK scan
+sudo nmap -sA -p 1-1024 192.168.1.1
 
-# Full port scan of a specific device
-sudo nmap -sS -p- -T4 192.168.1.50 -oA results/full-scan-device
+# Test Null, FIN, and Xmas against your router to see what your firewall reports
+sudo nmap -sN 192.168.1.1
+sudo nmap -sF 192.168.1.1
+sudo nmap -sX 192.168.1.1
 
-# UDP audit of your router for SNMP and DNS
-sudo nmap -sU -p 53,67,68,161,162,500 192.168.1.1
+# Fragment packets and check if your IDS/firewall logs them
+sudo nmap -f -sS 192.168.1.1
 
-# Scan entire subnet for Telnet — should return nothing
-nmap -p 23 --open 192.168.1.0/24
-
-# Scan entire subnet for FTP
-nmap -p 21 --open 192.168.1.0/24
-
-# Fast audit of all hosts — top 100 ports
-sudo nmap -sS -F 192.168.1.0/24 -oA results/fast-subnet-scan
+# Run a decoy scan in a lab environment
+sudo nmap -D RND:5 192.168.1.50
 ```
 
 **Important Things to Look For**
-- Port 23 open on any device (disable)
-- Port 21 open (disable)
-- Port 161 open
-- Port 8080 or 8443 open
-- Filtered ports
+- Ports showing unfiltered in ACK scan
+- Different Null/FIN/Xmas scan results than SYN scan
+- IDS fails to alert fragmented scans
