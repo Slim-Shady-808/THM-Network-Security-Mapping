@@ -38,155 +38,127 @@ sudo nmap -O --osscan-guess TARGET_IP
 - --osscan-guess = Guess aggressively when Nmap isn't confident
 - --osscan-limit = Only attempt OS detection on hosts with at least one open + closed port
 
-
-**Xmas Scan (-sX)**
-Sets FIN, PSH, and URG flags
-
-**Use Cases:**
-- Stealh alternative to SYN-based scans
-```
-sudo nmap -sX TARGET_IP
-sudo nmap -sX -p 1-1024 TARGET_IP
-```
-
-**Maimon Scan (-sM))**
-Sends FIN/ACK Packet
+**traceroute (--traceroute)**
+Perform traceroute for network path mapping
 
 **Use Cases:**
+- Map network path to target
 ```
-sudo nmap -sM TARGET_IP
+nmap --traceroute TARGET_IP
+nmap -A TARGET_IP         # -A includes traceroute automatically
 ```
 
-**ACK Scan (-sA)**
-Sends TCP ACK packet to each port
+**Aggressive Scan (-A)**
+Convience flag for OS detection
 
 **Use Cases:**
--  Map firewall rules
--  Identify reachable ports
+- Quick full-detail scan
 ```
-sudo nmap -sA TARGET_IP
-sudo nmap -sA -p 1-1024 TARGET_IP
+sudo nmap -A TARGET_IP
+sudo nmap -A -p- TARGET_IP    # Aggressive scan on all ports
 ```
 
-**Windows Scan (-sW)**
-ACK scan inspecting TCP window field value
+**Nmap Scripting Enginer (NSE)**
+Lets Nmap run scripts against hosts
 
 **Use Cases:**
-- Getting open/closed detail from ACK responses
+-  Automate and run vulnerability checks
+-  Brute-force attacks
+
+**Syntax:**
 ```
-sudo nmap -sW TARGET_IP
-```
+# Run default scripts (equivalent to --script=default)
+nmap -sC TARGET_IP
 
-**Custom TCP Scan (--scanflags)**
-Manually sets combination of TCP flags
+# Run a specific script
+nmap --script SCRIPT_NAME TARGET_IP
 
-**Use Cases:**
-- Testing firewall/IDS
-- Bypass signature-based detection
-```
-# SYN + FIN (illegal combination — tests IDS behaviour)
-sudo nmap --scanflags SYNFIN TARGET_IP
+# Run multiple scripts
+nmap --script SCRIPT1,SCRIPT2 TARGET_IP
 
-# SYN + RST (another unusual combination)
-sudo nmap --scanflags SYNRST TARGET_IP
+# Run all scripts in a category
+nmap --script CATEGORY TARGET_IP
 
-# URG + PSH + FIN (same as Xmas but via custom flag)
-sudo nmap --scanflags URGPSHFIN TARGET_IP
-```
-
-**Spoof Source IPs (-S)**
-Send packets with fake IP Source Address
-
-**Use Cases:**
-- Generate decoy traffic to confuse network logs
-```
-sudo nmap -S SPOOFED_IP -e INTERFACE -Pn TARGET_IP
+# Run all scripts matching a pattern
+nmap --script "http-*" TARGET_IP
 ```
 
-**Decoy Scan (-D)**
-Makes scan appear to come from multiple IP addresses
-
-**Use Cases:**
-- Test IDS to identify real IP source
-- Red team testing/engagements
+**Common Scripts:**
 ```
-# Use 5 random decoy IPs
-sudo nmap -D RND:5 TARGET_IP
+# HTTP — enumerate web server details
+nmap --script http-headers -p 80,443 TARGET_IP
+nmap --script http-auth-finder -p 80,443 TARGET_IP
+nmap --script http-default-accounts -p 80,8080,8443 TARGET_IP
+nmap --script "http-vuln*" -p 80,443 TARGET_IP
 
-# Specify exact decoy IPs (include ME for your real position)
-sudo nmap -D DECOY1,DECOY2,ME TARGET_IP
-```
+# SSH — audit configuration
+nmap --script ssh-auth-methods -p 22 TARGET_IP
+nmap --script ssh2-enum-algos -p 22 TARGET_IP
 
-**Idle/Zombie Scan (-sI)**
-Blind Scan
+# FTP — check anonymous login
+nmap --script ftp-anon -p 21 TARGET_IP
 
-**Use Cases:**
-- Red team engagements/testing
-```
-sudo nmap -sI ZOMBIE_IP TARGET_IP
-sudo nmap -sI ZOMBIE_IP:PORT TARGET_IP
-```
-**Requirements for Zombie Host:**
-- Must be idle during scan
-- Must have predictable IP ID counter with increments
+# SMB — enumerate shares and check for vulnerabilities
+nmap --script smb-enum-shares -p 445 TARGET_IP
+nmap --script smb-vuln-ms17-010 -p 445 TARGET_IP
 
-**Fragmentation (-f)**
-Splits TCP eader into small IP fragments
+# SSL/TLS — audit cipher strength
+nmap --script ssl-enum-ciphers -p 443 TARGET_IP
 
-**Use Cases:**
-- Testing if firewall correctly drops fragmented port scan traffic
-```
-# 8-byte fragments
-sudo nmap -f TARGET_IP
-
-# 16-byte fragments
-sudo nmap -ff TARGET_IP
-
-# Custom fragment size (must be a multiple of 8)
-sudo nmap --mtu 16 TARGET_IP
+# Vulnerability scan across all services
+nmap --script vuln TARGET_IP
 ```
 
-**Source Port Spoofing (--source-port)**
-Sets source port of scan packets to value
+### Output Formats
+- Normal (-oN): .nmap
+- XML (-oX): .xml
+- Greppable (-oG): .gnmap
 
-**Use Cases:**
-- Bypass firewalls that trust traffic from specific ports
-- Test own firewall rules
+**Syntax:**
 ```
-sudo nmap --source-port 53 TARGET_IP
-sudo nmap --source-port 80 TARGET_IP
-```
+# Save in normal format
+nmap -oN output.nmap TARGET_IP
 
-**Data Length Padding (--data-length)**
-Appends random data to scan packets to change the size
+# Save in XML format
+nmap -oX output.xml TARGET_IP
 
-**Use Cases:**
-- Evade IDS signatures that match Nmap default packet sizes
-```
-sudo nmap --data-length 200 TARGET_IP
+# Save in greppable format
+nmap -oG output.gnmap TARGET_IP
+
+# Save all three simultaneously (recommended)
+nmap -oA scan-results TARGET_IP
 ```
 
 ### Practical Application
+**Use Cases:**
+- Identify sotware versions
+- Run vulnerability scripts
 
 **Commands:**
 ```
-# Map your firewall rules with an ACK scan
-sudo nmap -sA -p 1-1024 192.168.1.1
+# Full audit of your router 
+sudo nmap -A --script vuln 192.168.1.1 -oA results/router-$(date +%F)
 
-# Test Null, FIN, and Xmas against your router to see what your firewall reports
-sudo nmap -sN 192.168.1.1
-sudo nmap -sF 192.168.1.1
-sudo nmap -sX 192.168.1.1
+# Service version audit
+sudo nmap -sV -iL hosts.txt -oA results/services-$(date +%F)
 
-# Fragment packets and check if your IDS/firewall logs them
-sudo nmap -f -sS 192.168.1.1
+# SSH audit on all devices
+nmap --script ssh-auth-methods,ssh2-enum-algos -p 22 -iL hosts.txt
 
-# Run a decoy scan in a lab environment
-sudo nmap -D RND:5 192.168.1.50
+# Anonymous FTP login check across subnet
+nmap --script ftp-anon -p 21 192.168.1.0/24
+
+# HTTP security header check 
+nmap --script http-headers -p 80,443,8080,8443 192.168.1.0/24
+
+# TLS audit on HTTPS 
+nmap --script ssl-enum-ciphers -p 443 192.168.1.0/24
+
+# Check for default credentials on web admin panels
+nmap --script http-default-accounts -p 80,8080,8443 192.168.1.0/24
 ```
 
 **Important Things to Look For**
-- Ports showing unfiltered in ACK scan
-- Different Null/FIN/Xmas scan results than SYN scan
-- IDS fails to alert fragmented scans
-
+- Outdated service versins
+- SSH allowing weak passwords
+- Old TLS versions
