@@ -2,7 +2,7 @@
 - Sniffing: Capture network traffic
 - MITM Attacks: Intercept traffic
 - Hydra Brute Force: Credential attack
-- SSH: Hardening
+- SSH/TLS: Hardening
 
 #### Sniffing Attacks
 Captures packets in network segment 
@@ -11,32 +11,94 @@ Captures packets in network segment
 - Capture cleartext credentials in FTP, HTTP, POP3, or IMAP
 - Verify how an attacker could read your network
 
-**Tcpdump Commands**
+**Tcpdump Commands:**
 ```
-# Capture all traffic on interface and save to file
+# Capture POP3 traffic and display contents
+sudo tcpdump port 110 -A
+
+# Capture all traffic on an interface and write to file
 sudo tcpdump -i eth0 -w capture.pcap
 
-# Capture on a specific interface
-sudo tcpdump -i eth0 -c 100 -w capture.pcap
-
 # Capture traffic on a specific port
-sudo tcpdump -i eth0 port 21 -w ftp-capture.pcap
-sudo tcpdump -i eth0 port 110 -w pop3-capture.pcap
+sudo tcpdump port 23 -A      # Telnet
+sudo tcpdump port 21 -A      # FTP
+sudo tcpdump port 25 -A      # SMTP
+```
 
-# Capture traffic to or from a host
-sudo tcpdump -i eth0 host TARGET_IP -w host-capture.pcap
+**Wireshark Commands:**
+```
+# Filter to show only IMAP traffic
+imap
 
-# Capture without saving 
-sudo tcpdump -i eth0 -A port 21
+# Filter to show only POP3 traffic
+pop
 
-# Read a capture file 
-tcpdump -r capture.pcap -A
+# Filter to show only FTP traffic
+ftp
+```
 
-# Search for credential keywords 
-tcpdump -r capture.pcap -A | grep -iE "user|pass|login|auth|password"
+#### MITM Attack
+Intercepting communication between two devices
 
-# Show only FTP commands
-tcpdump -r capture.pcap -A port 21 | grep -iE "user|pass|230|331"
+**Use Cases:**
+- Understand vulnerabilities in system
 
-# Show HTTP headers
-tcpdump -r capture.pcap -A port 80 | grep -iE "host:|authorization:|cookie:|set-cookie:"
+**TLS Protocol Certificates**
+Confirm identity of server
+
+### SSH 
+Encrypted replacement of telnet
+
+**Use Cases:**
+- Assess remote system vulnerabilities
+- Sceure file transfer
+
+**SSH Commands:**
+```
+# Connect to a remote system
+ssh username@TARGET_IP
+
+# Connect on a non-standard port
+ssh username@TARGET_IP -p PORT
+
+# SFTP file transfer
+sftp username@TARGET_IP
+```
+
+#### Hydra 
+Tool for login tests
+
+**Use Cases:**
+- Determine weak or strong credentials
+- See brute-force vulnerability
+
+**Hydra Commands:**
+- -l username: provide login username
+- -P WordList.txt: specify password
+- -s PORT: specify port
+- -V or -vV: show attempted username and password combinations
+- -d: display debug output
+```
+hydra -l USERNAME -P WORDLIST SERVICE://TARGET_IP
+hydra -l USERNAME -P WORDLIST SERVICE://TARGET_IP -V
+hydra -l USERNAME -P WORDLIST -s PORT SERVICE://TARGET_IP
+```
+
+### Practical Application
+**Commands:**
+```
+# Sniffing — capture POP3 traffic and read credentials in ASCII
+sudo tcpdump port 110 -A
+
+# Sniffing — capture all traffic and save to file for Wireshark
+sudo tcpdump -i eth0 -w capture.pcap
+
+# Hydra — test FTP login
+hydra -l frank -P /usr/share/wordlists/rockyou.txt ftp://TARGET_IP -V
+
+# Hydra — test SSH login
+hydra -l frank -P /usr/share/wordlists/rockyou.txt ssh://TARGET_IP -V
+
+# SSH — connect once valid credentials are found
+ssh frank@TARGET_IP
+```
