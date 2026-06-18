@@ -1,4 +1,4 @@
-<img width="1109" height="827" alt="image" src="https://github.com/user-attachments/assets/ce3f5fbe-bc5e-4d91-8f7a-63375a6fb4a6" />## Overview
+## Overview
 - Sniffing: Capture network traffic
 - MITM Attacks: Intercept traffic
 - Hydra Brute Force: Credential attack
