@@ -1,4 +1,5 @@
 ## Overview
+- sn: host discovery only
 - ARP Scan: Discover hosts on local subnet
 - ICMP Echo Scan: Ping scan
 - ICMP Timestamp and Address Mask Scan
@@ -7,20 +8,28 @@
 - UDP Ping: Sends UDP probe
 
 ### Key Concepts
+**Target Specification:**
+```
+# Single IP
+nmap TARGET_IP
+
+# From a file
+nmap -iL list_of_hosts.txt
+```
+
+**Check Nmap targets without scan:**
+```
+nmap -sL TARGETS
+```
+
 **-sn: Disable Port Scanning**
 Perform Host Discovery Only
 
 **Use Cases:**
 - Getting fast list of live hosts
 - Save live host list to a file
-
 ```
-# Ping sweep with no port scan
-nmap -sn SUBNET
-
-# ARP sweep — save output for follow-on scans
-sudo nmap -PR -sn 192.168.1.0/24 -oG live-hosts.txt
-grep "Up" live-hosts.txt | awk '{print $2}' > hosts.txt
+nmap -sn TARGETS
 ```
 
 **ARP Scan (-PR)**
@@ -34,7 +43,7 @@ Sends ARP Request to every host (Can't be blocked by host firewall)
 - Only works with local network
 - Nmap automatically uses ARP
 ```
-sudo nmap -PR -sn 192.168.1.0/24
+sudo nmap -PR -sn MACHINE_IP/24
 ```
 
 **ICMP Echo Scan (-PE)**
@@ -44,8 +53,7 @@ Sends ICMP Echo Request Packets
 - Fast host sweep
 - Confirm hosts are reachable
 ```
-sudo nmap -PE -sn TARGET_IP
-sudo nmap -PE -sn 192.168.1.0/24
+sudo nmap -PE -sn MACHINE_IP/24
 ```
 
 **ICMP Timestamp Scan (-PP)**
@@ -54,7 +62,7 @@ Sends ICMP Timestamp Request Packets
 **Use Cases:**
 - Bypass firewall rules blocking ICMP Echo
 ```
-sudo nmap -PP -sn 192.168.1.0/24
+sudo nmap -PP -sn MACHINE_IP/24
 ```
 
 **ICMP Address Mask Scan (-PM)**
@@ -63,7 +71,7 @@ Sends ICMP Address Mask Request Packets
 **Use Cases:**
 - Last resort ICMP probe if -PE and -PP blocked
 ```
-sudo nmap -PM -sn 192.168.1.0/24
+sudo nmap -PM -sn MACHINE_IP/24
 ```
 
 **TCP SYN Ping (-PS)**
@@ -73,14 +81,9 @@ Sends TCP SYN Packet to port
 - Discover hosts using TCP services
 - Target specific open ports
 ```
-# SYN ping on the default port (80)
-sudo nmap -PS -sn TARGET_IP
-
-# SYN ping on multiple ports
-sudo nmap -PS22,80,443 -sn 192.168.1.0/24
-
-# SYN ping on a port range
-sudo nmap -PS1-1024 -sn TARGET_IP
+sudo nmap -PS -sn MACHINE_IP
+sudo nmap -PS80 -sn MACHINE_IP
+sudo nmap -PS80,443 -sn MACHINE_IP
 ```
 
 **TCP ACK Ping (-PA)**
@@ -89,8 +92,8 @@ Sends TCP ACK Packet
 **Use Cases:**
 - Discover hosts when SYN packets blocked by firewall
 ```
-sudo nmap -PA -sn TARGET_IP
-sudo nmap -PA80,443 -sn 192.168.1.0/24
+sudo nmap -PA -sn MACHINE_IP
+sudo nmap -PA80 -sn MACHINE_IP
 ```
 
 **UDP Ping (-PU)**
@@ -99,8 +102,8 @@ Sends UDP Packet to specified port
 **Use Cases:**
 - Discover hosts blocking al TCP and ICMP probes but open to UDP
 ```
-sudo nmap -PU -sn TARGET_IP
-sudo nmap -PU53,161 -sn 192.168.1.0/24
+sudo nmap -PU -sn MACHINE_IP
+sudo nmap -PU53 -sn MACHINE_IP
 ```
 
 ### Practical Application
