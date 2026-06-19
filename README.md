@@ -40,21 +40,9 @@ ICMP Echo Request packets
 - Verify network connectivity
 **Syntax**
 ```
-ping TARGET_IP
-ping -c COUNT TARGET_IP
+ping -c COUNT TARGET_IP       (Linux/macOS)
+ping -n COUNT TARGET_IP       (Windows)
 ```
-
-**Key Flags**
--c COUNT (Linux/macos): Send specific number of packets
--n COUNT (Windows): Send specific number of packets
--i INTERVAL (Linux/macos): Wait interval between each packet
--s SIZE (Linux/macos): Set packet payload size
--t TTL (Linux/macos): Set Time-to-Live value 
-
-**Interpret Results**
-- Reply recieved: ICMP not blocked, host is up
-- Request timeout: Host down or firewall dropping ICMP
-- Destination host unreachable: no route to host exists
 
 ### Traceroute
 Maps network path between machine and a target
@@ -67,20 +55,9 @@ Maps network path between machine and a target
 
 **Syntax:**
 ```
-traceroute TARGET_IP          (Linux/macOS)
-tracert TARGET_IP             (Windows)
+traceroute TARGET_IP      (Linux/macOS)
+tracert TARGET_IP         (Windows)
 ```
-**Key Flags:**
--n: Do not resolve hostnames 
--m MAX_HOPS: Set max number of hops
--q QUERIES: Number of probe packets per hop
--I: Use ICMP instead of UDP (Linux)
--T: Use TCP SYN instead of UDP (Linux)
-
-**Interpret Results**
-- IP Address each line: Router at that hop and its round trip time
-- * * *: Hop unresponsive means either firewall drops probes, or the router is unconfigured for replies
-- Repeated IP: Routing loop
 
 ### Telnet 
 Cleartext Remote Terminal Protocol (TCP Port 23)
@@ -98,13 +75,6 @@ Cleartext Remote Terminal Protocol (TCP Port 23)
 telnet TARGET_IP PORT
 ```
 
-**Important Banner Information**
-- HTTP: Server header reveal web software and version
-- SMTP: Banner line reveals software
-- FTP: Banner includes server name and version
-- SSH: Banner includes OpsenSSH Versions
-- POP3/IMAP: Banner reveals mail server software
-
 ### Netcat
 Opens Raw TCP/UDP Connections
 **Use Cases**
@@ -117,17 +87,17 @@ Opens Raw TCP/UDP Connections
 
 **Syntax**
 ```
-nc [options] TARGET_IP PORT
+nc MACHINE_IP PORT
+
+# Server Mode
+nc -lvnp PORT
 ```
 **Key Flags**
 -n: Numeric only 
 -v: Verbose
 -v -v: Extra verbose
--u: Use UDP 
 -l: Listen mode
 -p PORT: Specific source port
--w TIMEOUT: Timeout for idle connections
--z: Zero I/O mode
 
 ## Practical Application
 **Use Cases:**
@@ -172,18 +142,29 @@ nc -nv -z -w 1 192.168.1.1 23
 **Installation**
 Debian/Ubuntu
 ```
-# telnet and netcat
 sudo apt update
-sudo apt install telnet netcat-openbsd curl
+sudo apt install telnet netcat-openbsd
 
-# Verify all tools are available
-which ping traceroute telnet nc curl
+which ping traceroute telnet nc
+```
+MacOS
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+brew install telnet netcat
+
+which ping traceroute telnet nc
 ```
 
 Windows
 ```
-# Enable Telnet client via PowerShell (Run as administrator)
 dism /online /Enable-Feature /FeatureName:TelnetClient
+
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+choco install ncat
 ```
 **Pre-Checks**
 ```
