@@ -14,8 +14,9 @@ Probe each open port
 - Confirm if service is running on port or firewall redirect
 - Detect outdated software across network
 ```
-nmap -sV TARGET_IP
-nmap -sV --version-intensity LEVEL TARGET_IP
+nmap -sV --version-intensity 5 TARGET_IP
+nmap -sV --version-light TARGET_IP    # intensity 2
+nmap -sV --version-all TARGET_IP      # intensity 9
 ```
 **version Intesity Levels**
 0 = --version-light 
@@ -31,12 +32,7 @@ Analyze differences in TCP/IP stack
 - Scope pen test
 ```
 sudo nmap -O TARGET_IP
-sudo nmap -O --osscan-guess TARGET_IP
 ```
-**Useful OS Detection Flags**
-- -O = Enable OS detection
-- --osscan-guess = Guess aggressively when Nmap isn't confident
-- --osscan-limit = Only attempt OS detection on hosts with at least one open + closed port
 
 **traceroute (--traceroute)**
 Perform traceroute for network path mapping
@@ -45,17 +41,6 @@ Perform traceroute for network path mapping
 - Map network path to target
 ```
 nmap --traceroute TARGET_IP
-nmap -A TARGET_IP         # -A includes traceroute automatically
-```
-
-**Aggressive Scan (-A)**
-Convience flag for OS detection
-
-**Use Cases:**
-- Quick full-detail scan
-```
-sudo nmap -A TARGET_IP
-sudo nmap -A -p- TARGET_IP    # Aggressive scan on all ports
 ```
 
 **Nmap Scripting Enginer (NSE)**
@@ -67,46 +52,17 @@ Lets Nmap run scripts against hosts
 
 **Syntax:**
 ```
-# Run default scripts (equivalent to --script=default)
+# Run default scripts
 nmap -sC TARGET_IP
 
 # Run a specific script
-nmap --script SCRIPT_NAME TARGET_IP
+nmap --script=SCRIPT_NAME TARGET_IP
 
-# Run multiple scripts
-nmap --script SCRIPT1,SCRIPT2 TARGET_IP
+# Run a category
+nmap --script=CATEGORY TARGET_IP
 
-# Run all scripts in a category
-nmap --script CATEGORY TARGET_IP
-
-# Run all scripts matching a pattern
-nmap --script "http-*" TARGET_IP
-```
-
-**Common Scripts:**
-```
-# HTTP — enumerate web server details
-nmap --script http-headers -p 80,443 TARGET_IP
-nmap --script http-auth-finder -p 80,443 TARGET_IP
-nmap --script http-default-accounts -p 80,8080,8443 TARGET_IP
-nmap --script "http-vuln*" -p 80,443 TARGET_IP
-
-# SSH — audit configuration
-nmap --script ssh-auth-methods -p 22 TARGET_IP
-nmap --script ssh2-enum-algos -p 22 TARGET_IP
-
-# FTP — check anonymous login
-nmap --script ftp-anon -p 21 TARGET_IP
-
-# SMB — enumerate shares and check for vulnerabilities
-nmap --script smb-enum-shares -p 445 TARGET_IP
-nmap --script smb-vuln-ms17-010 -p 445 TARGET_IP
-
-# SSL/TLS — audit cipher strength
-nmap --script ssl-enum-ciphers -p 443 TARGET_IP
-
-# Vulnerability scan across all services
-nmap --script vuln TARGET_IP
+# Example — run the http-date script
+nmap --script "http-date" TARGET_IP
 ```
 
 ### Output Formats
@@ -116,17 +72,10 @@ nmap --script vuln TARGET_IP
 
 **Syntax:**
 ```
-# Save in normal format
-nmap -oN output.nmap TARGET_IP
-
-# Save in XML format
-nmap -oX output.xml TARGET_IP
-
-# Save in greppable format
-nmap -oG output.gnmap TARGET_IP
-
-# Save all three simultaneously (recommended)
-nmap -oA scan-results TARGET_IP
+nmap -oN OUTPUT_FILE.nmap TARGET_IP
+nmap -oG OUTPUT_FILE.gnmap TARGET_IP
+nmap -oX OUTPUT_FILE.xml TARGET_IP
+nmap -oS OUTPUT_FILE.txt TARGET_IP
 ```
 
 ### Practical Application
