@@ -11,18 +11,26 @@ Based off the TryHackMe Network Security Module
 
 ## Prerequisites 
 **Installation**
+**Ubuntu/Debian**
 ```
-# Install Nmap
 sudo apt update
 sudo apt install nmap
 
-# Update the NSE script database after installation
-sudo nmap --script-updatedb
-
-# Verify version
 nmap --version
 ```
+**MacOS**
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+brew install nmap
+
+nmap --version
+```
+**Windows**
+```
+# Download from: https://nmap.org/download.html
+# Run the .exe installer
+```
 **Pre-Checks**
 ```
 # 1. Find your local subnet
@@ -45,29 +53,6 @@ mkdir -p ~/nmap-results
 - NSE scripts: Most work without root; some (broadcast-*, raw socket scripts) require sudo
 - Advanced scans (Null, FIN, Xmas, Idle, spoofing): All require sudo
 
-**Quick Refernce**
-```
-# Host discovery
-sudo nmap -PR -sn SUBNET             # ARP sweep — most reliable on LAN
-sudo nmap -PE -sn SUBNET             # ICMP ping sweep
-
-# Basic port scans
-sudo nmap -sS TARGET                 # SYN stealth scan (default + recommended)
-nmap -sT TARGET                      # TCP connect scan (no root needed)
-sudo nmap -sU --top-ports 20 TARGET  # Top 20 UDP ports
-
-# OS Scans/Service Versions
-nmap -sV TARGET                      # Service version detection
-sudo nmap -O TARGET                  # OS fingerprinting
-nmap -A TARGET                       # All: OS + version + scripts + traceroute
-
-# NSE scripts
-nmap -sC TARGET                      # Default safe scripts
-nmap --script vuln TARGET            # Vulnerability check scripts
-
-# Output
-nmap -oA results/scan TARGET         # Save all three formats simultaneously
-```
 
 ### Contents
 - [01-live-host-discovery.md](01-live-host-discovery.md)
