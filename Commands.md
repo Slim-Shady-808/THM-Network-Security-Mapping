@@ -5,71 +5,40 @@ whois DOMAIN.com
 
 # IP address ownership lookup
 whois TARGET_IP
-
-# Look up your own public IP
-whois $(curl -s ifconfig.me)
-
-# Filter for key fields
-whois DOMAIN.com | grep -i registrar
-whois DOMAIN.com | grep -i "name server"
-whois DOMAIN.com | grep -i expir
-whois DOMAIN.com | grep -i "creation date"
 ```
 
 ### nslookup
 ```
-# A record (IPV4)
-nslookup -type=A DOMAIN.com
+# Basic syntax
+nslookup OPTIONS DOMAIN_NAME SERVER
 
-# AAAA record (IPV6)
-nslookup -type=AAAA DOMAIN.com
+# A record — IPv4 address
+nslookup -type=A tryhackme.com
 
-# MX records
-nslookup -type=MX DOMAIN.com
+# AAAA record — IPv6 address
+nslookup -type=AAAA tryhackme.com
 
-# TXT records
-nslookup -type=TXT DOMAIN.com
-
-# NS records
-nslookup -type=NS DOMAIN.com
-
-# CNAME record 
-nslookup -type=CNAME subdomain.DOMAIN.com
-
-# SOA Record
-nslookup -type=SOA DOMAIN.com
-
-# Query using a specific DNS resolver
-nslookup -type=A DOMAIN.com 8.8.8.8
-nslookup -type=MX DOMAIN.com 1.1.1.1
-```
-
-### dig
-```
-# A record
-dig DOMAIN.com A
-
-# MX records
-dig DOMAIN.com MX
+# MX records — mail servers
+nslookup -type=MX tryhackme.com
 
 # TXT records
-dig DOMAIN.com TXT
+nslookup -type=TXT tryhackme.com
 
-# NS records
-dig DOMAIN.com NS
+# Query using a specific DNS server
+nslookup -type=A tryhackme.com 1.1.1.1
+nslookup -type=A tryhackme.com 8.8.8.8
 
-# All record types
-dig DOMAIN.com ANY
+# Flag question — TXT record lookup
+nslookup -type=txt thmlabs.com```
 
-# Use a specific resolver
-dig @8.8.8.8 DOMAIN.com A
-dig @1.1.1.1 DOMAIN.com MX
+```
+### Dig
+```
+# MX record lookup
+dig tryhackme.com MX
 
-# Zone transfer attempt — should return REFUSED
-dig DOMAIN.com AXFR @NS1.DOMAIN.com
-
-# Reverse DNS lookup
-dig -x TARGET_IP
+# Query using a specific DNS server
+dig @1.1.1.1 tryhackme.com MX
 ```
 
 ### Online Tools 
