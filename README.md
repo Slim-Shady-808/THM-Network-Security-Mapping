@@ -31,8 +31,7 @@ whois IP_ADDRESS
 Simple command-line DNS client for querying DNS record types
 **Syntax:**
 ```
-nslookup -type=RECORD_TYPE DOMAIN
-nslookup -type=RECORD_TYPE DOMAIN DNS_SERVER
+nslookup OPTIONS DOMAIN_NAME SERVER
 ```
 
 **Service Types:**
@@ -42,20 +41,14 @@ nslookup -type=RECORD_TYPE DOMAIN DNS_SERVER
 4. MX = Mail Servers
 5. SOA = Start of Authority
 6. TXT = TXT Records
-7. NS = Domain Name Servers
 
 ### Dig
 More advanced DNS query tool, including TTL values, name server, and time
 
 **Syntax:**
 ```
-dig @DNS_SERVER DOMAIN RECORD_TYPE
-```
-
-**Zone Transfer**
-```
-dig ns DOMAIN
-dig DOMAIN axfr @NS1.DOMAIN
+dig DOMAIN_NAME TYPE
+dig @SERVER DOMAIN_NAME TYPE
 ```
 
 ### DNSDumpster
@@ -80,51 +73,41 @@ Online search engine scanning internet to find open ports, service banners, SSL 
 - Associated CVEs and service versions
 - Device type
 
-
 **How to use:**
 1. Go to https://www.shodan.io
 2. Search for target public IP, domain, or name
 3. Review output and vulnerabilities
 
 ## PreRequisites:
-
-**WHOIS Installation**
+**Installation**
+**Ubuntu/Debian**
 ```
-#Install WHOIS-Windows:
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-choco install whois
+sudo apt update
+sudo apt install whois dnsutils
 
-#Install WHOIS-Ubuntu/Linux (Debian-based):
-sudo apt update && sudo apt install whois
-
-#Install WHOIS-macOS (With Homebrew):
+which whois nslookup dig
+```
+**MacOS**
+```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 brew install whois
 
-#Verify WHOIS installed:
-whois google.com | grep -i "domain name" && echo "SUCCESS: WHOIS is working" || echo "ERROR: WHOIS not working or not installed"
+which whois nslookup dig
 ```
+**Windows**
+```
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-**Nslookup and Dig Installation**
-```
-# Install nslookup & dig - Windows:
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 choco install bind-toolsonly
-
-# Install nslookup & dig - Ubuntu/Linux (Debian-based):
-sudo apt update && sudo apt install dnsutils
-
-# Install nslookup & dig - macOS (With Homebrew):
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install bind
-
-# Verify nslookup installed:
-nslookup google.com | grep -i "address" && echo "SUCCESS: nslookup is working" || echo "ERROR: nslookup not working or not installed"
-
-# Verify dig installed:
-dig google.com | grep -i "ANSWER SECTION" && echo "SUCCESS: dig is working" || echo "ERROR: dig not working or not installed"
 ```
-
+**who is installation**
+```
+# Download from: https://learn.microsoft.com/en-us/sysinternals/downloads/whois
+whois.exe DOMAIN.com
+```
 **Pre-Checks**
 ```
 # 1. Note your own public IP
@@ -144,25 +127,3 @@ Use Case:
 - Check for open ports on public IP with Shodan
 - Discover active subdomains
 
-**Commands:**
-```
-# Check your public IP
-curl -s ifconfig.me
-
-# WHOIS your domain and your public IP
-whois YOUR-DOMAIN.com
-whois $(curl -s ifconfig.me)
-
-# Pull all DNS records for your domain
-dig YOUR-DOMAIN.com TYPE
-
-# Attempt zone transfer — should return REFUSED
-dig YOUR-DOMAIN.com AXFR @NS1.DOMAIN
-
-# Confirm records are consistent
-dig @8.8.8.8 YOUR-DOMAIN.com A
-dig @1.1.1.1 YOUR-DOMAIN.com MX
-
-# Check Shodan for your public IP
-# https://www.shodan.io/host/YOUR_PUBLIC_IP
-```
