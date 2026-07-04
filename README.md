@@ -2,7 +2,8 @@
 A structured and practical network-mapping guide based off the TryHackMe Network-Security module. Provides basic tools and online services for active/passive reconnassiance, Nmap scanning strategies, and common network protocols. 
 
 **OVERVIEW**
-This write-up documents the TryHackMe Network Security Module and the practicalities for network assessment :
+This write-up documents the TryHackMe Network Security Module and the practicalities for network assessment.
+**Write-Up:** [TryHackMe Network Security — Full Write-Up](./WRITEUP.md)
 
 **Topics Covered**
 Provides list of commands and uses
@@ -10,8 +11,6 @@ Provides list of commands and uses
 - Active Reconnaissance: Direct target network probing (Ping, Tracerroute, Telnet, Netcat)
 - Nmap: Network Mapping (TCP/UDP, ARP, ICMP, Basic+Advanced Port Scans)
 - Protocols and Servers (Common Protocols, SSH, SSL/TLS, Hydra)
-
-**Write-Up:** [TryHackMe Network Security — Full Write-Up](./WRITEUP.md)
 
 **Purpose**
 Learn to use basic tools and online service for network mapping and passive/active reconnaissance.
