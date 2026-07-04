@@ -11,6 +11,8 @@ Provides list of commands and uses
 - Nmap: Network Mapping (TCP/UDP, ARP, ICMP, Basic+Advanced Port Scans)
 - Protocols and Servers (Common Protocols, SSH, SSL/TLS, Hydra)
 
+**Write-Up:** [TryHackMe Network Security — Full Write-Up](./WRITEUP.md)
+
 **Purpose**
 Learn to use basic tools and online service for network mapping and passive/active reconnaissance.
 Have access to the following:
