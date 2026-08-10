@@ -15,3 +15,5 @@ The next part of the Passive reconnasiance module covered nslookup and dig (whic
 (Screenshot)
 
 Moving past the command line tools the TryHackMe module introduced me to two web browser passive recon tools, DNSDumpster and Shodan.io. Using DNSDumpster was simple, as I just had to search up the tryhackme domain and look through the results to find the answer to the given question. On the other hand, when I was using Shodan.io, i was at first confused because I thought I had to search up a specific domain to find the answer to the given question (Which country has the most publicly accessible apache servers?). However, I quickly found I could just search the topic of interest (apache and ngix) to find the information about the servers of interst, and to answer the question. 
+(Screenshots)
+
