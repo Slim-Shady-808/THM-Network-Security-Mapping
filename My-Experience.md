@@ -2,7 +2,6 @@
 When I first started this TryHackMe Networking Module with NetSecTap, I only had a very conceptual and general knowledge of networks, from my two years of experience doing part-time IT work. As such, besides knowing that IP addresses were assigned to each machine within a network, most of the information and exercises from the module were new concepts to me. 
 (Screenshot)
 
-
 Since everything was new to me, I decided to use a learning technique I use at school, which involves taking notes for each module onto a google doc, which I would then use as reference for a Claude context window, in the event I ever wanted to learn more information about a topic or concept. 
 
 The first part of the TryHackMe Network module is Passive Reconnasaince, which I learned was about gathering information about a target without direct interaction, using publicly available sources. I learned the difference between passive and active recon, and was quickly able to answer the module questions, which asked me to distinguish between active and passive recon examples. 
@@ -16,4 +15,10 @@ The next part of the Passive reconnasiance module covered nslookup and dig (whic
 
 Moving past the command line tools the TryHackMe module introduced me to two web browser passive recon tools, DNSDumpster and Shodan.io. Using DNSDumpster was simple, as I just had to search up the tryhackme domain and look through the results to find the answer to the given question. On the other hand, when I was using Shodan.io, i was at first confused because I thought I had to search up a specific domain to find the answer to the given question (Which country has the most publicly accessible apache servers?). However, I quickly found I could just search the topic of interest (apache and ngix) to find the information about the servers of interst, and to answer the question. 
 (Screenshots)
+
+The next section of the Network module is focused on Active Reconnaisance, which involves direct interaction with a target system to gain information about that system. 
+First, I learned about how web browsers could be used for active recon, as it is one of the least suspicious tools to use. TCP and UDP were both ports that I was somewhat familiar with, as my work experience had taught me basics about browser connections. Something that I was unfamiliar with using were developer tools and the given browser extensions. Fortunately, as I had some previous experience coding with html, I was able to quickly figure out the GUI and find the total number of "questions" within the example website. 
+(Screenshot)
+
+Moving onto the command line tools, I was pretty excited to see ping explained in the module, as I had to previously use ping while working with workstations and domains. With the knowledge I already had, I quickly answer the first three questions, which asked how to set the data size of the ICMP echo packet, what the size of the ICMP header was, and if MS Windows Firewall blocks ping by default. Then, for the final question, it was as simple as starting the given lab machine and attackbox and inputing the given ping command to find the answer to the question. 
 
