@@ -22,3 +22,9 @@ First, I learned about how web browsers could be used for active recon, as it is
 
 Moving onto the command line tools, I was pretty excited to see ping explained in the module, as I had to previously use ping while working with workstations and domains. With the knowledge I already had, I quickly answer the first three questions, which asked how to set the data size of the ICMP echo packet, what the size of the ICMP header was, and if MS Windows Firewall blocks ping by default. Then, for the final question, it was as simple as starting the given lab machine and attackbox and inputing the given ping command to find the answer to the question. 
 
+However, since I was not as familiar with traceroute, telnet, and netcat, I had to take time to learn what they are and how they work. Additionally, using google, I was able to find more summative descriptions and definitions of the three protocols. Yet, once I read about the protocols, and learned the command lines, they were fairly simple to use. Using traceroute was self explanatory, and answering the questions was simple enough, with the new knowledge that it maps each "hop" to the target host from my machine. 
+(Screenshots) 
+
+Answering the telnet questions was simple as well. Since I already was given the IP address and the port, I was able to find the name and the version of the running server. The netcat question was also simple to answer, as I was given the -p flag needed for specifying ports, allowing me to find the server version on port 21. I didn't quite understand what the differnce between the two was, so with a quick online search, I found that telnet works on the application layer of the OSI model while netcat works on the transport layer (and allows for UDP).
+
+The Nmap Live Host section was completely novel to me. I had some idea of what the transport layer is but had no clue what ARP scans were, TCP SYN/ACK scans, or reverse DNS lookup. 
