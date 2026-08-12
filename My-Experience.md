@@ -27,4 +27,12 @@ However, since I was not as familiar with traceroute, telnet, and netcat, I had 
 
 Answering the telnet questions was simple as well. Since I already was given the IP address and the port, I was able to find the name and the version of the running server. The netcat question was also simple to answer, as I was given the -p flag needed for specifying ports, allowing me to find the server version on port 21. I didn't quite understand what the differnce between the two was, so with a quick online search, I found that telnet works on the application layer of the OSI model while netcat works on the transport layer (and allows for UDP).
 
-The Nmap Live Host section was completely novel to me. I had some idea of what the transport layer is but had no clue what ARP scans were, TCP SYN/ACK scans, or reverse DNS lookup. 
+The Nmap Live Host section was completely novel to me. I had some idea of what the transport layer is but had no clue what ARP scans were, TCP SYN/ACK scans, or reverse DNS lookup. Fortunately, I had some background knowledge of subnetworks and network segments. Learning that ARP sent queries to hosts within a subnet, I found the ARP GUI easy to use and was able to answer the questions with ease.
+(Screenshot)
+
+Learning about and experimenting with Nmap ARP scans and TCP/UDP (mascan) scans was enjoyable. Getting through this part of the module was as simple as reading through the lessons, learning about the different flags and options, and using them in the attack box to find the answers to some of the given questions. I didn't quite understand what reverse-dns lookup was, and how it worked, so I googled the term and was able to learn it is for finding domain names based on an IP address. 
+(screenshot)
+(screenshot)
+
+The basic and advanced port scans may have been my favorite part of the module (aside from learning about Hydra), as it was interesting to learn about the advantages and disadvantages of each option was, and it was satisfying to experiment with them in the attack box. 
+The basic port scan module broke down the idea of open, closed, filtered, and unfiltered ports. It was at this point I began to have to use the internet to answer some of the questions in the module, such as "which service uses UDP port 53 by default?" as I had no clue what the answers were, and they were not listed in the lesson. However, I did learn that open ports are what penntesters look out for when testing systems, because they introduce a potential access point/vulnerability for attackers to manipulate and access. 
