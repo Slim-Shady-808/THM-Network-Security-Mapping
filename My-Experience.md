@@ -30,9 +30,13 @@ Answering the telnet questions was simple as well. Since I already was given the
 The Nmap Live Host section was completely novel to me. I had some idea of what the transport layer is but had no clue what ARP scans were, TCP SYN/ACK scans, or reverse DNS lookup. Fortunately, I had some background knowledge of subnetworks and network segments. Learning that ARP sent queries to hosts within a subnet, I found the ARP GUI easy to use and was able to answer the questions with ease.
 (Screenshot)
 
-Learning about and experimenting with Nmap ARP scans and TCP/UDP (mascan) scans was enjoyable. Getting through this part of the module was as simple as reading through the lessons, learning about the different flags and options, and using them in the attack box to find the answers to some of the given questions. I didn't quite understand what reverse-dns lookup was, and how it worked, so I googled the term and was able to learn it is for finding domain names based on an IP address. 
+Learning about and experimenting with Nmap ARP scans and TCP/UDP (mascan) scans was enjoyable. Getting through this part of the module was as simple as reading through the lessons, learning about the different flags and options, and using them in the attack box to find the answers to some of the given questions. I didn't quite understand what reverse-dns lookup was, so I googled the term and was able to learn that reverse-dns was simply for finding domain names based on an IP address, instead of finding an IP address based on domain names.
 (screenshot)
 (screenshot)
 
+
 The basic and advanced port scans may have been my favorite part of the module (aside from learning about Hydra), as it was interesting to learn about the advantages and disadvantages of each option was, and it was satisfying to experiment with them in the attack box. 
 The basic port scan module broke down the idea of open, closed, filtered, and unfiltered ports. It was at this point I began to have to use the internet to answer some of the questions in the module, such as "which service uses UDP port 53 by default?" as I had no clue what the answers were, and they were not listed in the lesson. However, I did learn that open ports are what penntesters look out for when testing systems, because they introduce a potential access point/vulnerability for attackers to manipulate and access. 
+This information gave me more context as to why TCP Connect, TCP SYN, and UDP scans were used, as well as their different flags. 
+(Screenshot)
+The goal is to see if there are any open ports using these scans, which attackers can use to their advantage when finding vulnerabilities in a system. It was interesting to learn the difference between TCP and UDP, as TCP works based on connections and handshakes, while UDP works through connectionless packet sending, whether the reciever is open or not. 
