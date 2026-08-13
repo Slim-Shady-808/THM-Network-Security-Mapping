@@ -43,3 +43,5 @@ The goal is to see if there are any open ports using these scans, which attacker
 (Screenshot)
 
 It was interesting to learn how powerful advanced port scans are with the amount of information they can uncover, while minimizing potential detection from a target. I found that the TCP FIN, XMAS, and Null scans basically are common scans with certain pretedermined flags set, that allow pentesters to have different vectors to find open ports. The TCP Maimon scan is not as useful for finding open ports with modern networks, but it still can be useful when testing legacy/unconfigured networks. 
+(Screeshot)
+(Screenshot)
