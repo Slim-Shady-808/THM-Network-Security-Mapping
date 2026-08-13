@@ -34,9 +34,12 @@ Learning about and experimenting with Nmap ARP scans and TCP/UDP (mascan) scans 
 (screenshot)
 (screenshot)
 
-
 The basic and advanced port scans may have been my favorite part of the module (aside from learning about Hydra), as it was interesting to learn about the advantages and disadvantages of each option was, and it was satisfying to experiment with them in the attack box. 
 The basic port scan module broke down the idea of open, closed, filtered, and unfiltered ports. It was at this point I began to have to use the internet to answer some of the questions in the module, such as "which service uses UDP port 53 by default?" as I had no clue what the answers were, and they were not listed in the lesson. However, I did learn that open ports are what penntesters look out for when testing systems, because they introduce a potential access point/vulnerability for attackers to manipulate and access. 
 This information gave me more context as to why TCP Connect, TCP SYN, and UDP scans were used, as well as their different flags. 
 (Screenshot)
+
 The goal is to see if there are any open ports using these scans, which attackers can use to their advantage when finding vulnerabilities in a system. It was interesting to learn the difference between TCP and UDP, as TCP works based on connections and handshakes, while UDP works through connectionless packet sending, whether the reciever is open or not. To find the answers to the given questions for this section of the model, I was able to use the lesson examples as reference for command lines to find the necessary information. 
+(Screenshot)
+
+It was interesting to learn how powerful advanced port scans are with the amount of information they can uncover, while minimizing potential detection from a target. I found that the TCP FIN, XMAS, and Null scans basically are common scans with certain pretedermined flags set, that allow pentesters to have different vectors to find open ports. The TCP Maimon scan is not as useful for finding open ports with modern networks, but it still can be useful when testing legacy/unconfigured networks. 
