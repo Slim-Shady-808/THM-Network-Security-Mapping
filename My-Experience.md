@@ -51,4 +51,10 @@ The next part of the advanced port scans introduced the idea of spoofing MAC and
 (Screenshot)
 (Screenshot)
 
-The post-port scans add to a pentesters toolbox, by allowing them to detect service versions, find OS versions, script nmap commands, and save the output of the commands using normal, grep, and xml. By detecting service versions and OS versions, pentesters can use online vulnerability databases to see what threat vectors may be prominent on their system. Nmap scripts add an incredible amount of tools, from finding backdoors, to launching attacks on a target. Answering the questions for detecting service/os versions was a similar process answering questions to previous modules, as I looked through example commands as reference to write commands I needed for answering the questions. 
+The post-port scans add to a pentesters toolbox, by allowing them to detect service versions, find OS versions, script nmap commands, and save the output of the commands using normal, grep, and xml. By detecting service versions and OS versions, pentesters can use online vulnerability databases to see what threat vectors may be prominent on their system. Nmap scripts add an incredible amount of tools, from finding backdoors, to launching attacks on a target. Answering the questions for detecting service/os versions was a similar process answering questions to previous modules, as I looked through example commands as reference to write commands I needed for answering the questions. The Nmap scripting and output response sections were more complicated, and it took me longer to figure out the commands I needed to answer the given questions, but using the lesson as reference, I was able to figure it out.
+(Screenshot)
+(Screenshot)
+(Screenshot)
+(Screenshot)
+
+
