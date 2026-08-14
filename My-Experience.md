@@ -46,3 +46,9 @@ It was interesting to learn how powerful advanced port scans are with the amount
 (Screeshot)
 (Screenshot)
 
+The next part of the advanced port scans introduced the idea of spoofing MAC and IP addresses, fragmenting packets with wireshark, and using zombie/idle scans to hide the pentester's identity. With these type of scans, an attacker can reduce the chances of being detected and caught, which would grant them more destructive potential. The questions for most of the advanced port scan section were answerable by reading the lesson and inputting the corresponding command lines to find certain information. 
+(Screenshot)
+(Screenshot)
+(Screenshot)
+
+The post-port scans add to a pentesters toolbox, by allowing them to detect service versions, find OS versions, script nmap commands, and save the output of the commands using normal, grep, and xml. By detecting service versions and OS versions, pentesters can use online vulnerability databases to see what threat vectors may be prominent on their system. Nmap scripts add an incredible amount of tools, from finding backdoors, to launching attacks on a target. Answering the questions for detecting service/os versions was a similar process answering questions to previous modules, as I looked through example commands as reference to write commands I needed for answering the questions. 
