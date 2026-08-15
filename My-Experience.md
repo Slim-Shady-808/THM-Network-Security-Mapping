@@ -57,4 +57,4 @@ The post-port scans add to a pentesters toolbox, by allowing them to detect serv
 (Screenshot)
 (Screenshot)
 
-The final part of the learning module was about ports and servers. 
+The final part of the learning module was about ports and servers. Then first half of the module went over telnet and transfer protocols, including 
