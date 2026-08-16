@@ -75,3 +75,9 @@ Then, once finding the port FTP was running on, I used telnet to connect to that
 For the next question, I knew I would have to use hydra, because two usernames were given, and the module wanted me to find a hidden flag associated with the users. However, I had to return to the previous module, to find the command line I needed to run hydra. It took a minute to figure out what command I needed to use, since my query continued to timeout, due to too many connections. (Screenshot) 
 I eventually figured out I had to specify the port number to reduce the amount of query connections, which allowed me to get each user's password. Then, using the password, I connected to the ftp service using both accounts and saw Quinn had a file, with the hidden flag. (Screenshot) (Screenshot)
 
+Finally, the last challenge asked me to complete a small challenge, which was to use nmap to scan the given IP address without being detected. This challenge took me ages, because I thought the answer was going to be a convuluted command. I used zombie/idle scans and tried to spoof my IP address. After an hour or so, after looking through my notes again, I realized that the answer was simple, as it wanted me to use a null scan because it doesn't send any packets. 
+(Screenshot)
+Once I did a null scan, I found the answer easily and completed the challenge.
+(Screenshot)
+
+This 
