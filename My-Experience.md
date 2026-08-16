@@ -1,86 +1,106 @@
 ### My Experience
 When I first started this TryHackMe Networking Module with NetSecTap, I only had a very conceptual and general knowledge of networks, from my two years of experience doing part-time IT work. As such, besides knowing that IP addresses were assigned to each machine within a network, most of the information and exercises from the module were new concepts to me. 
-(Screenshot)
+<img width="1865" height="839" alt="Screenshot (14)" src="https://github.com/user-attachments/assets/1870b5aa-bfae-441c-a448-c5ef3034493e" />
 
 Since everything was new to me, I decided to use a learning technique I use at school, which involves taking notes for each module onto a google doc, which I would then use as reference for a Claude context window, in the event I ever wanted to learn more information about a topic or concept. 
 
 The first part of the TryHackMe Network module is Passive Reconnasaince, which I learned was about gathering information about a target without direct interaction, using publicly available sources. I learned the difference between passive and active recon, and was quickly able to answer the module questions, which asked me to distinguish between active and passive recon examples. 
-(Screenshot)
-
+<img width="1865" height="839" alt="Screenshot (14)" src="https://github.com/user-attachments/assets/1870b5aa-bfae-441c-a448-c5ef3034493e" />
 
 Then, I was introduced to the whois protocol, which is a TCP query, running on Port 43, useful for finding domain names and registration details. The module also mentioned curl, querying RDAP domains, which are beginning to phase out Whois. Running the VM attackbox, I was able to easily find the registry information for the TryHackMe domain, using "whois tryhackme.com", answering the questions seen in the screenshot. While curl was an available tool, it wasn't requried to find the information. 
-(Screenshot)
-
+<img width="1902" height="774" alt="Screenshot (15)" src="https://github.com/user-attachments/assets/c8d41f51-7ae5-4a8f-8477-bf54a01e34a3" />
 
 The next part of the Passive reconnasiance module covered nslookup and dig (which is the modern prefered option) protocols, revealing IP addresses, mail servers, and txt records. Since the TryHackMe module had examples of what to do, I was able to answer the given question of finding the flag within the TXT records of thmlabs.com with "dig @1.1.1.1 thmlabs.com TXT".
-(Screenshot)
-
+<img width="1920" height="758" alt="Screenshot (16)" src="https://github.com/user-attachments/assets/6b51bf49-747d-4e13-82b7-72271f64d069" />
 
 Moving past the command line tools the TryHackMe module introduced me to two web browser passive recon tools, DNSDumpster and Shodan.io. Using DNSDumpster was simple, as I just had to search up the tryhackme domain and look through the results to find the answer to the given question. On the other hand, when I was using Shodan.io, i was at first confused because I thought I had to search up a specific domain to find the answer to the given question (Which country has the most publicly accessible apache servers?). However, I quickly found I could just search the topic of interest (apache and ngix) to find the information about the servers of interst, and to answer the question. 
-(Screenshot x2)
+<img width="1872" height="818" alt="Screenshot (17)" src="https://github.com/user-attachments/assets/c2e4018f-d87d-46e2-840a-c26e905c2128" />
+<img width="1894" height="820" alt="Screenshot (18)" src="https://github.com/user-attachments/assets/8de97850-1851-4d93-a2fe-3407a60348a1" />
 
 The next section of the Network module is focused on Active Reconnaisance, which involves direct interaction with a target system to gain information about that system. 
 First, I learned about how web browsers could be used for active recon, as it is one of the least suspicious tools to use. TCP and UDP were both ports that I was somewhat familiar with, as my work experience had taught me basics about browser connections. Something that I was unfamiliar with using were developer tools and the given browser extensions. Fortunately, as I had some previous experience coding with html, I was able to quickly figure out the GUI and find the total number of "questions" within the example website. 
-(Screenshot)
+<img width="1130" height="833" alt="Screenshot (19)" src="https://github.com/user-attachments/assets/3836cae3-0841-490b-91f3-addee5b37773" />
 
 Moving onto the command line tools, I was pretty excited to see ping explained in the module, as I had to previously use ping while working with workstations and domains. With the knowledge I already had, I quickly answer the first three questions, which asked how to set the data size of the ICMP echo packet, what the size of the ICMP header was, and if MS Windows Firewall blocks ping by default. Then, for the final question, it was as simple as starting the given lab machine and attackbox and inputing the given ping command to find the answer to the question. 
 
 However, since I was not as familiar with traceroute, telnet, and netcat, I had to take time to learn what they are and how they work. Additionally, using google, I was able to find more summative descriptions and definitions of the three protocols. Yet, once I read about the protocols, and learned the command lines, they were fairly simple to use. Using traceroute was self explanatory, and answering the questions was simple enough, with the new knowledge that it maps each "hop" to the target host from my machine. 
-(Screenshots) 
+<img width="1130" height="815" alt="Screenshot (20)" src="https://github.com/user-attachments/assets/afe31f4c-5f11-40fd-b420-cf9e11f17dcc" />
 
 Answering the telnet questions was simple as well. Since I already was given the IP address and the port, I was able to find the name and the version of the running server. The netcat question was also simple to answer, as I was given the -p flag needed for specifying ports, allowing me to find the server version on port 21. I didn't quite understand what the differnce between the two was, so with a quick online search, I found that telnet works on the application layer of the OSI model while netcat works on the transport layer (and allows for UDP).
 
 The Nmap Live Host section was completely novel to me. I had some idea of what the transport layer is but had no clue what ARP scans were, TCP SYN/ACK scans, or reverse DNS lookup. Fortunately, I had some background knowledge of subnetworks and network segments. Learning that ARP sent queries to hosts within a subnet, I found the ARP GUI easy to use and was able to answer the questions with ease.
-(Screenshot)
+<img width="1097" height="827" alt="Screenshot (21)" src="https://github.com/user-attachments/assets/41b573b7-7fca-441d-8ce0-f8d4d22e453d" />
 
 Learning about and experimenting with Nmap ARP scans and TCP/UDP (mascan) scans was enjoyable. Getting through this part of the module was as simple as reading through the lessons, learning about the different flags and options, and using them in the attack box to find the answers to some of the given questions. I didn't quite understand what reverse-dns lookup was, so I googled the term and was able to learn that reverse-dns was simply for finding domain names based on an IP address, instead of finding an IP address based on domain names.
-(screenshot)
-(screenshot)
+<img width="1555" height="763" alt="Screenshot (22)" src="https://github.com/user-attachments/assets/31d43b02-5fe4-4d8b-a720-84c4f2390207" />
+<img width="1920" height="817" alt="Screenshot (23)" src="https://github.com/user-attachments/assets/8eefc034-083c-402c-ad8a-4c4cd691ce49" />
 
 The basic and advanced port scans may have been my favorite part of the module (aside from learning about Hydra), as it was interesting to learn about the advantages and disadvantages of each option was, and it was satisfying to experiment with them in the attack box. 
 The basic port scan module broke down the idea of open, closed, filtered, and unfiltered ports. It was at this point I began to have to use the internet to answer some of the questions in the module, such as "which service uses UDP port 53 by default?" as I had no clue what the answers were, and they were not listed in the lesson. However, I did learn that open ports are what penntesters look out for when testing systems, because they introduce a potential access point/vulnerability for attackers to manipulate and access. 
 This information gave me more context as to why TCP Connect, TCP SYN, and UDP scans were used, as well as their different flags. 
-(Screenshot)
+<img width="1920" height="815" alt="Screenshot (24)" src="https://github.com/user-attachments/assets/ca68dc4c-1a0c-4a46-b449-775a2c45edb9" />
 
 The goal is to see if there are any open ports using these scans, which attackers can use to their advantage when finding vulnerabilities in a system. It was interesting to learn the difference between TCP and UDP, as TCP works based on connections and handshakes, while UDP works through connectionless packet sending, whether the reciever is open or not. To find the answers to the given questions for this section of the model, I was able to use the lesson examples as reference for command lines to find the necessary information. 
-(Screenshot)
+<img width="1875" height="750" alt="Screenshot (25)" src="https://github.com/user-attachments/assets/07d483d6-fa96-4273-8437-a9b8084b281f" />
+<img width="1885" height="837" alt="Screenshot (26)" src="https://github.com/user-attachments/assets/e17560f9-294f-4922-a6f8-5aba14c45251" />
 
-It was interesting to learn how powerful advanced port scans are with the amount of information they can uncover, while minimizing potential detection from a target. I found that the TCP FIN, XMAS, and Null scans basically are common scans with certain pretedermined flags set, that allow pentesters to have different vectors to find open ports. The TCP Maimon scan is not as useful for finding open ports with modern networks, but it still can be useful when testing unconfigured networks. The module also presented TCP ACK and Window scans as useful for learning what ports are blocked by a firewall. Finally, TCP custom scans allow the pentester to set specific flags. 
-(Screeshot)
-(Screenshot)
+It was interesting to learn how powerful advanced port scans are with the amount of information they can uncover, while minimizing potential detection from a target. I found that the TCP FIN, XMAS, and Null scans basically are common scans with certain pretedermined flags set, that allow pentesters to have different vectors to find open ports.
+<img width="1769" height="820" alt="Screenshot (28)" src="https://github.com/user-attachments/assets/57861dca-6efc-4535-88de-29381e0e4d55" />
+<img width="1767" height="831" alt="Screenshot (30)" src="https://github.com/user-attachments/assets/cd8dac15-32dd-4bdd-98ed-4f39db55d0a2" />
+
+The TCP Maimon scan is not as useful for finding open ports with modern networks, but it still can be useful when testing unconfigured networks. 
+<img width="1920" height="700" alt="Screenshot (29)" src="https://github.com/user-attachments/assets/38749a75-1ab7-4c8d-84e2-60833f4e69d5" />
+
+The module also presented TCP ACK and Window scans as useful for learning what ports are blocked by a firewall. Finally, TCP custom scans allow the pentester to set specific flags. 
+<img width="1852" height="838" alt="Screenshot (31)" src="https://github.com/user-attachments/assets/93ad71c2-c288-4194-ad44-39abfbe4d47d" />
 
 The next part of the advanced port scans introduced the idea of spoofing MAC and IP addresses, fragmenting packets with wireshark, and using zombie/idle scans to hide the pentester's identity. With these type of scans, an attacker can reduce the chances of being detected and caught, which would grant them more destructive potential. The questions for most of the advanced port scan section were answerable by reading the lesson and inputting the corresponding command lines to find certain information. 
-(Screenshot)
-(Screenshot)
-(Screenshot)
+<img width="1852" height="828" alt="Screenshot (32)" src="https://github.com/user-attachments/assets/870d0b98-b6df-42ce-90b7-995cf02307c7" />
+<img width="1845" height="822" alt="Screenshot (33)" src="https://github.com/user-attachments/assets/71c78d84-2e26-4edc-b1e7-de5caf108c96" />
 
-The post-port scans add to a pentesters toolbox, by allowing them to detect service versions, find OS versions, script nmap commands, and save the output of the commands using normal, grep, and xml. By detecting service versions and OS versions, pentesters can use online vulnerability databases to see what threat vectors may be prominent on their system. Nmap scripts add an incredible amount of tools, from finding backdoors, to launching attacks on a target. Answering the questions for detecting service/os versions was a similar process answering questions to previous modules, as I looked through example commands as reference to write commands I needed for answering the questions. The Nmap scripting and output response sections were more complicated, and it took me longer to figure out the commands I needed to answer the given questions, but using the lesson as reference, I was able to figure it out.
-(Screenshot)
-(Screenshot)
-(Screenshot)
-(Screenshot)
+The post-port scans add to a pentesters toolbox, by allowing them to detect service versions, find OS versions, script nmap commands, and save the output of the commands using normal, grep, and xml. 
+<img width="1869" height="835" alt="Screenshot (34)" src="https://github.com/user-attachments/assets/13177075-133c-4cd9-ba01-c797660ee46a" />
+By detecting service versions and OS versions, pentesters can use online vulnerability databases to see what threat vectors may be prominent on their system.
+<img width="1865" height="836" alt="Screenshot (35)" src="https://github.com/user-attachments/assets/7749f2ec-0216-4bbe-80f6-6a390ebb32e5" />
+Nmap scripts add an incredible amount of tools, from finding backdoors, to launching attacks on a target. Answering the questions for detecting service/os versions was a similar process answering questions to previous modules, as I looked through example commands as reference to write commands I needed for answering the questions. 
+The Nmap scripting and output response sections were more complicated, and it took me longer to figure out the commands I needed to answer the given questions, but using the lesson as reference, I was able to figure it out.
+<img width="1862" height="808" alt="Screenshot (36)" src="https://github.com/user-attachments/assets/e3f93750-5b26-40b1-a740-75284a709f04" />
+<img width="1839" height="830" alt="Screenshot (37)" src="https://github.com/user-attachments/assets/21906714-63e7-4369-94f7-156f51f3bce7" />
 
 The final part of the learning module was about ports and servers. Then first half of the module went over telnet and common transfer protocols, including HTTP, FTP, SMTP, POP3, and IMAP. Telnet, a remote access/management protocol, does not typically work in modern systems, but can be useful for testing legacy or unconfigured systems. The lessons in this module were straightfoward teaching the protocol's function, the associated security implications, and the given command line inputs. Each protocol only had one question, which was simple to answer just by reading the lesson. 
-(Screenshot)
+<img width="1861" height="816" alt="Screenshot (38)" src="https://github.com/user-attachments/assets/2686358f-4e6a-408d-a8c5-b4b785cc5765" />
 
 The second half of ports and servers went over three different attack methods, as well as SSH and TLS. TCPdump and wireshark were used in explaining sniffing attacks, which are meant to gather information about a target. It allows a pentester to specify protocols from the first half of the module, by using their default port numbers. Man-in-the-middle attacks and password attacks were things I was decently familiar with. However, it was interesting and terrifying to learn about the capability of the tools that can be used to carry out the attacks, especially hydra. I learned how important locking down open ports is, and the lesson also provided various methods of protecting your system. 
-(Screenshot)
+<img width="1848" height="801" alt="Screenshot (39)" src="https://github.com/user-attachments/assets/7be814c4-fdfd-48ad-a8bd-6d3dd4b52146" />
+
 It was also interesting to learn about TLS protocols and SSH options from the module. They provide a much more secure method of authentication, file transfer, and key generation for guarding against the previously mentioned attacks. 
-(Screenshot)
-(Screenshot)
+<img width="1837" height="836" alt="Screenshot (40)" src="https://github.com/user-attachments/assets/95aa4151-1447-4d28-b632-56aa34b1f92e" />
+<img width="1846" height="801" alt="Screenshot (41)" src="https://github.com/user-attachments/assets/1329c947-0ca3-4929-bc5f-62a0a90e4ea6" />
 
 Once I answered the questions from this module, it was finally time for the challenge. The challenge first asked me to use nmap, telnet, and Hydra to solve the questions. Looking at the first four questions, I was able to see that I needed to use nmap, specifically because the questions were related to finding open ports, with one question asking to find the service version on a port. With the help of the notes I took, I used the -sS and -sV options to find open ports within a set range, and to find the service version on port 80. For the next couple questions, I decided to use telnet to directly connect to the SSH and FTP servers. Knowing SSH runs on port 22, I used telnet to connect to port 22 on the given IP address, which allowed me to see the server header to answer the question. 
-(Screenshot)
+<img width="1873" height="836" alt="Screenshot (42)" src="https://github.com/user-attachments/assets/5518135c-6e07-4754-bc24-5283dce3d0fe" />
+
 For the next question, because the FTP service was running on a nonstandard port, I knew I first had to find what ports were open, so I used nmap to scan all ports with nmap -sV -p- <ip address>.
-(Screenshot)
+<img width="1920" height="1080" alt="Screenshot (43)" src="https://github.com/user-attachments/assets/897ba36b-751c-4ed6-8308-c44f76f36543" />
+
+
 Then, once finding the port FTP was running on, I used telnet to connect to that port and find the service version.
-(Screenshot)
-For the next question, I knew I would have to use hydra, because two usernames were given, and the module wanted me to find a hidden flag associated with the users. However, I had to return to the previous module, to find the command line I needed to run hydra. It took a minute to figure out what command I needed to use, since my query continued to timeout, due to too many connections. (Screenshot) 
-I eventually figured out I had to specify the port number to reduce the amount of query connections, which allowed me to get each user's password. Then, using the password, I connected to the ftp service using both accounts and saw Quinn had a file, with the hidden flag. (Screenshot) (Screenshot)
+<img width="1890" height="825" alt="Screenshot (44)" src="https://github.com/user-attachments/assets/081a70d5-7dc1-4bfa-8164-c41911c11a8c" />
+
+For the next question, I knew I would have to use hydra, because two usernames were given, and the module wanted me to find a hidden flag associated with the users. However, I had to return to the previous module, to find the command line I needed to run hydra. It took a minute to figure out what command I needed to use, since my query continued to timeout, due to too many connections. 
+<img width="1869" height="830" alt="Screenshot (45)" src="https://github.com/user-attachments/assets/78846da8-576c-4eb5-9466-d8dcc4160f8a" />
+<img width="1894" height="827" alt="Screenshot (46)" src="https://github.com/user-attachments/assets/34335494-5bc1-4065-87ef-dfb1677f480f" />
+<img width="1873" height="843" alt="Screenshot (47)" src="https://github.com/user-attachments/assets/f313251c-0a6b-4209-97a1-792b2acf6529" />
+
+I eventually figured out I had to specify the port number to reduce the amount of query connections, which allowed me to get each user's password. Then, using the password, I connected to the ftp service using both accounts and saw Quinn had a file, with the hidden flag.
+<img width="1873" height="843" alt="Screenshot (47)" src="https://github.com/user-attachments/assets/f313251c-0a6b-4209-97a1-792b2acf6529" />
+<img width="1871" height="827" alt="Screenshot (48)" src="https://github.com/user-attachments/assets/c75fae15-106a-41d2-a96a-4cd9d59f4ddc" />
+<img width="1879" height="828" alt="Screenshot (49)" src="https://github.com/user-attachments/assets/8d8cca35-5978-4aa1-84f5-389f73fa07eb" />
 
 Finally, the last challenge asked me to complete a small challenge, which was to use nmap to scan the given IP address without being detected. This challenge took me ages, because I thought the answer was going to be a convuluted command. I used zombie/idle scans and tried to spoof my IP address. After an hour or so, after looking through my notes again, I realized that the answer was simple, as it wanted me to use a null scan because it doesn't send any packets. 
-(Screenshot)
+<img width="1898" height="841" alt="Screenshot (50)" src="https://github.com/user-attachments/assets/dc7bf597-de43-488d-9922-a8685d69a50a" />
+
 Once I did a null scan, I found the answer easily and completed the challenge.
-(Screenshot)
+<img width="1898" height="839" alt="Screenshot (51)" src="https://github.com/user-attachments/assets/3cf8ca51-8781-4e40-9300-04bd1eca4500" />
 
 This network module opened my eyes to the amount of vulnerabilities that can appear when pentesting a network or a machine on a network. Before I had begun this network module, I had very limited knowledge about networks and using command line in general. This expanded my knowledge, and actually helped me when I took my Security+ exam. I had more experience with using command prompt for one of the questions during the exam. Additionally, the knowledge I gained from this module gave me an extra boost when taking my exam. Overall, I was very pleased with the module, considering the amount of time it took, and I plan to study other Tryhackme modules to advance my own knowledge. 
