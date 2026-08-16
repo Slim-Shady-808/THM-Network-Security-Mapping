@@ -7,14 +7,17 @@ Since everything was new to me, I decided to use a learning technique I use at s
 The first part of the TryHackMe Network module is Passive Reconnasaince, which I learned was about gathering information about a target without direct interaction, using publicly available sources. I learned the difference between passive and active recon, and was quickly able to answer the module questions, which asked me to distinguish between active and passive recon examples. 
 (Screenshot)
 
+
 Then, I was introduced to the whois protocol, which is a TCP query, running on Port 43, useful for finding domain names and registration details. The module also mentioned curl, querying RDAP domains, which are beginning to phase out Whois. Running the VM attackbox, I was able to easily find the registry information for the TryHackMe domain, using "whois tryhackme.com", answering the questions seen in the screenshot. While curl was an available tool, it wasn't requried to find the information. 
 (Screenshot)
+
 
 The next part of the Passive reconnasiance module covered nslookup and dig (which is the modern prefered option) protocols, revealing IP addresses, mail servers, and txt records. Since the TryHackMe module had examples of what to do, I was able to answer the given question of finding the flag within the TXT records of thmlabs.com with "dig @1.1.1.1 thmlabs.com TXT".
 (Screenshot)
 
+
 Moving past the command line tools the TryHackMe module introduced me to two web browser passive recon tools, DNSDumpster and Shodan.io. Using DNSDumpster was simple, as I just had to search up the tryhackme domain and look through the results to find the answer to the given question. On the other hand, when I was using Shodan.io, i was at first confused because I thought I had to search up a specific domain to find the answer to the given question (Which country has the most publicly accessible apache servers?). However, I quickly found I could just search the topic of interest (apache and ngix) to find the information about the servers of interst, and to answer the question. 
-(Screenshots)
+(Screenshot x2)
 
 The next section of the Network module is focused on Active Reconnaisance, which involves direct interaction with a target system to gain information about that system. 
 First, I learned about how web browsers could be used for active recon, as it is one of the least suspicious tools to use. TCP and UDP were both ports that I was somewhat familiar with, as my work experience had taught me basics about browser connections. Something that I was unfamiliar with using were developer tools and the given browser extensions. Fortunately, as I had some previous experience coding with html, I was able to quickly figure out the GUI and find the total number of "questions" within the example website. 
@@ -80,4 +83,4 @@ Finally, the last challenge asked me to complete a small challenge, which was to
 Once I did a null scan, I found the answer easily and completed the challenge.
 (Screenshot)
 
-This 
+This network module opened my eyes to the amount of vulnerabilities that can appear when pentesting a network or a machine on a network. Before I had begun this network module, I had very limited knowledge about networks and using command line in general. This expanded my knowledge, and actually helped me when I took my Security+ exam. I had more experience with using command prompt for one of the questions during the exam. Additionally, the knowledge I gained from this module gave me an extra boost when taking my exam. Overall, I was very pleased with the module, considering the amount of time it took, and I plan to study other Tryhackme modules to advance my own knowledge. 
