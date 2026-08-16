@@ -72,4 +72,6 @@ For the next question, because the FTP service was running on a nonstandard port
 (Screenshot)
 Then, once finding the port FTP was running on, I used telnet to connect to that port and find the service version.
 (Screenshot)
-For the next question, I knew I would have to use hydra, because two usernames were given, and the module wanted me to find a hidden flag associated with the users. However, I had to return to the previous module, to find the command line I needed to run hydra. It took a minute to figure out what command I needed to use, since my query continued to timeout, due to too many connections. (Screenshot)
+For the next question, I knew I would have to use hydra, because two usernames were given, and the module wanted me to find a hidden flag associated with the users. However, I had to return to the previous module, to find the command line I needed to run hydra. It took a minute to figure out what command I needed to use, since my query continued to timeout, due to too many connections. (Screenshot) 
+I eventually figured out I had to specify the port number to reduce the amount of query connections, which allowed me to get each user's password. Then, using the password, I connected to the ftp service using both accounts and saw Quinn had a file, with the hidden flag. (Screenshot) (Screenshot)
+
