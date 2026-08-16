@@ -62,4 +62,8 @@ The final part of the learning module was about ports and servers. Then first ha
 
 The second half of ports and servers went over three different attack methods, as well as SSH and TLS. TCPdump and wireshark were used in explaining sniffing attacks, which are meant to gather information about a target. It allows a pentester to specify protocols from the first half of the module, by using their default port numbers. Man-in-the-middle attacks and password attacks were things I was decently familiar with. However, it was interesting and terrifying to learn about the capability of the tools that can be used to carry out the attacks, especially hydra. I learned how important locking down open ports is, and the lesson also provided various methods of protecting your system. 
 (Screenshot)
-It was also interesting to learn about TLS protocols and SSH options from the module. They provide a much more secure method of authentication, file transfer, and key generation for guarding against the previously mentioned attacks.
+It was also interesting to learn about TLS protocols and SSH options from the module. They provide a much more secure method of authentication, file transfer, and key generation for guarding against the previously mentioned attacks. 
+(Screenshot)
+(Screenshot)
+
+Once I answered the questions from this module, it was finally time for the challenge.
