@@ -66,4 +66,10 @@ It was also interesting to learn about TLS protocols and SSH options from the mo
 (Screenshot)
 (Screenshot)
 
-Once I answered the questions from this module, it was finally time for the challenge.
+Once I answered the questions from this module, it was finally time for the challenge. The challenge first asked me to use nmap, telnet, and Hydra to solve the questions. Looking at the first four questions, I was able to see that I needed to use nmap, specifically because the questions were related to finding open ports, with one question asking to find the service version on a port. With the help of the notes I took, I used the -sS and -sV options to find open ports within a set range, and to find the service version on port 80. For the next couple questions, I decided to use telnet to directly connect to the SSH and FTP servers. Knowing SSH runs on port 22, I used telnet to connect to port 22 on the given IP address, which allowed me to see the server header to answer the question. 
+(Screenshot)
+For the next question, because the FTP service was running on a nonstandard port, I knew I first had to find what ports were open, so I used nmap to scan all ports with nmap -sV -p- <ip address>.
+(Screenshot)
+Then, once finding the port FTP was running on, I used telnet to connect to that port and find the service version.
+(Screenshot)
+For the next question, I knew I would have to use hydra, because two usernames were given, and the module wanted me to find a hidden flag associated with the users. However, I had to return to the previous module, to find the command line I needed to run hydra. It took a minute to figure out what command I needed to use, since my query continued to timeout, due to too many connections. (Screenshot)
